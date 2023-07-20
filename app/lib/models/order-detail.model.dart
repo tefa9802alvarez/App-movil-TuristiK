@@ -1,12 +1,11 @@
-import 'dart:ffi';
 
 class OrderDetail{
 
   final String? orderDetailId;
   final String? orderId;
   final String beneficiaryId;
-  final Float unitPrice;
+  final double unitPrice;
 
-  OrderDetail(this.orderDetailId, this.orderId, this.beneficiaryId, this.unitPrice);
+  OrderDetail({required this.orderDetailId, required this.orderId, required this.beneficiaryId, required this.unitPrice});
   
 }

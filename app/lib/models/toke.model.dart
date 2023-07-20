@@ -4,7 +4,7 @@ class Token{
   final String message;
   final String result;
 
-  Token(this.success, this.message, this.result);
+  Token({required this.success, required this.message, required this.result});
 
 }
 
@@ -22,6 +22,6 @@ class UserLog{
   final String role;
   final String roleId;
 
-  UserLog(this.sub, this.jti, this.iat, this.id, this.userName, this.email, this.iss, this.aud, this.role, this.roleId);
+  UserLog({required this.sub, required this.jti, required this.iat, required this.id, required this.userName, required this.email, required this.iss, required this.aud, required this.role, required this.roleId});
 }
 

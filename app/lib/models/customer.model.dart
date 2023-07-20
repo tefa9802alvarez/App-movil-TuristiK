@@ -1,14 +1,14 @@
 class Customer{
 
-  final String? costumerId;
-  final String name;
-  final String lastName;
-  final String document;
-  final DateTime birthDate;
-  final String phoneNumber;
-  final String address;
-  final String eps;
-  final String? userId;
+  late String? customerId;
+  late String name;
+  late String lastName;
+  late String document;
+  late DateTime birthDate;
+  late String phoneNumber;
+  late String address;
+  late String eps;
+  late String? userId;
 
-  Customer(this.costumerId, this.name, this.lastName, this.document, this.birthDate, this.phoneNumber, this.address, this.eps, this.userId);
+  Customer(this.customerId, this.name, this.lastName, this.document, this.birthDate, this.phoneNumber, this.address, this.eps, this.userId);
 }
