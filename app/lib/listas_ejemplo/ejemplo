@@ -1,0 +1,53 @@
+ List<Order> orders = [
+    Order(
+      orderId: "12321213",
+      customerId: "4082de5a-8818-4181-232a-08db84838b9b",
+      packageId: "76aeceb9-63b9-4b5b-12c1-08db855c4edc",
+      package: Package(
+        packageId: "76aeceb9-63b9-4b5b-12c1-08db855c4edc",
+        name: "Viaje a Coveñas",
+        destination: "coveñas ",
+        details: "El clima en Coveñas es tropical, con temperaturas cálidas durante todo el año y una temporada de lluvias entre mayo y noviembre.",
+        transport: "0",
+        hotel: "palace hotel",
+        departureDate: "2023-07-28T19:51:04",
+        arrivalDate: "2023-07-30T19:51:09",
+        departurePoint: "La terminal ",
+        totalQuotas: 50,
+        availableQuotas: 45,
+        price: 380000.00,
+        type: false,
+        status: true,
+      ),
+      totalCost: 380000.00,
+      status: 1,
+      payment: [
+        Payment(
+            paymentId: "17beecf9-29c5-4a6f-99ad-08db87bcdde7",
+            orderId: "f2e6c8ef-d157-469c-24a2-08db87c95e0e",
+            amount: 100.00,
+            remainingAmount: 208900.00,
+            date: "2023-07-18T20:09:37.47",
+            image: "url",
+            status: 1
+        ),
+        Payment(
+            paymentId: "17beecf9-29c5-4a6f-99ad-08db87bcdde7",
+            orderId: "f2e6c8ef-d157-469c-24a2-08db87c95e0e",
+            amount: 100.00,
+            remainingAmount: 208900.00,
+            date: "2023-07-18T20:09:37.47",
+            image: "url",
+            status: 1
+        )
+      ],
+      orderDetail: [
+          OrderDetail(
+            orderDetailId: "6c3ecd65-61b5-4842-2edd-08db87c95e19",
+            orderId: "f2e6c8ef-d157-469c-24a2-08db87c95e0e",
+            beneficiaryId: "acb85669-6220-431c-2329-08db84838b9b",
+            unitPrice: 380000.00
+          )
+      ]
+    )
+  ];
