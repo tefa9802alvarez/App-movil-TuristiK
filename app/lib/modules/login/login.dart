@@ -2,6 +2,7 @@ import 'package:app/modules/orders/main.orders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -10,6 +11,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -105,7 +107,7 @@ class _LoginState extends State<Login> {
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(
-                                    color: Color.fromARGB(1000, 59, 130, 246),
+                                    color: Color(0xE83B82F6),
                                     width: 1.0,
                                   ),
                                 ),
@@ -178,18 +180,6 @@ class _LoginState extends State<Login> {
                               // String email = _emailController.text;
                               // String password = _passwordController.text;
                               // String message = "";
-
-                              // try {
-                              //   final token = await ApiService.signIn(email, password);
-
-                              //   if (token.success) {
-                              //     message = "Ingresaste";
-                              //   } else {
-                              //     message = "Datos incorrectos";
-                              //   }
-                              // } catch (e) {
-                              //   message = e.toString();
-                              // }
 
                               setState(() {
                                 Navigator.push(
