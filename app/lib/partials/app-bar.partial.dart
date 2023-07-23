@@ -4,20 +4,23 @@ import 'package:flutter/material.dart';
 
 class AppBarNav extends StatelessWidget {
   final String navtitle;
-  const AppBarNav({super.key, required this.navtitle});
+  final bool backOption ;
+  const AppBarNav({super.key, required this.navtitle,required this.backOption});
 
   @override
   Widget build(BuildContext context) {
     return 
       AppBar(
-        backgroundColor: Colors.white,
+        //backgroundColor: Colors.white,
+        backgroundColor: const Color.fromARGB(1000, 59, 130, 246),
         title:  
         Padding(
           padding: const EdgeInsets.only(left:10,top: 10),
           child: Text(navtitle,style: const TextStyle(
             fontFamily: 'Poppins',
             fontSize: 20,
-            color:  Color.fromARGB(1000, 59, 130, 246)
+            //color:  Color.fromARGB(1000, 59, 130, 246)
+            color: Colors.white
           )),
         ),
         actions: [
@@ -26,11 +29,12 @@ class AppBarNav extends StatelessWidget {
             child: IconButton(onPressed: (){
               Navigator.push(context,MaterialPageRoute(builder: (context)=>const Login()));
             },icon: const Icon(
-              Icons.logout_sharp,color: Color.fromARGB(1000, 59, 130, 246),size: 25,
+              //Icons.logout_sharp,color: Color.fromARGB(1000, 59, 130, 246),size: 25,
+              Icons.logout_sharp,color: Colors.white,size: 25,
             )),
           ),
         ],
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: backOption,
       );
   }
 }

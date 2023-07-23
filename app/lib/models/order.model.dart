@@ -25,5 +25,18 @@ class Order{
     required this.orderDetail, 
     required this.package, 
   });
+
+  factory Order.fromJson(Map json){
+    return Order(
+      orderId: json["orderId"], 
+      customerId: json["customerId"], 
+      packageId: json["packageId"], 
+      totalCost: json["totalCost"], 
+      status: json["status"], 
+      payment: json["payment"],
+      orderDetail: json["orderDetail"], 
+      package: json["package"],
+    );
+  }
 }
 
