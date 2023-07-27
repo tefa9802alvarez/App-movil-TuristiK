@@ -1,4 +1,5 @@
 import 'package:app/modules/login/login.dart';
+import 'package:app/styles/styles.dart';
 import 'package:flutter/material.dart';
 
 
@@ -11,8 +12,7 @@ class AppBarNav extends StatelessWidget {
   Widget build(BuildContext context) {
     return 
       AppBar(
-        //backgroundColor: Colors.white,
-        backgroundColor: const Color.fromARGB(1000, 59, 130, 246),
+        backgroundColor: Styles.blue,
         title:  
         Padding(
           padding: const EdgeInsets.only(left:10,top: 10),
@@ -30,7 +30,7 @@ class AppBarNav extends StatelessWidget {
               Navigator.push(context,MaterialPageRoute(builder: (context)=>const Login()));
             },icon: const Icon(
               //Icons.logout_sharp,color: Color.fromARGB(1000, 59, 130, 246),size: 25,
-              Icons.logout_sharp,color: Colors.white,size: 25,
+              Icons.logout_rounded,color: Colors.white,size: 25,
             )),
           ),
         ],

@@ -1,12 +1,31 @@
+import 'package:app/models/customer.model.dart';
 import 'package:app/models/order-detail.model.dart';
 import 'package:app/partials/app-bar.partial.dart';
+import 'package:app/services/api.service.dart';
+import 'package:app/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class FrecuentTraveler extends StatelessWidget {
-  final List<OrderDetail> frecuentTravelers;
-  const FrecuentTraveler(
-      {super.key, required this.frecuentTravelers});
+class MainFrecuentTraveler extends StatefulWidget {
+  final List<OrderDetail> orderDetail;
+  const MainFrecuentTraveler(
+      {super.key, required this.orderDetail});
+
+  @override
+  State<MainFrecuentTraveler> createState() => _MainFrecuentTravelerState();
+}
+
+class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
+
+  static List<dynamic> frecuentTravelers = [];
+
+  @override
+  void initState() {
+    super.initState(); 
+    loadFrecuentTravelers();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,45 +69,16 @@ class FrecuentTraveler extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                  "Acompañantes (${frecuentTravelers.length}) ",
+                                  "Acompañantes (${widget.orderDetail.length}) ",
                                   style: const TextStyle(
                                       color: Color.fromARGB(255, 0, 0, 0),
                                       fontSize: 16,
-                                      fontFamily: 'Poppins',
+                                      fontFamily: Styles.mainFont,
                                       fontWeight: FontWeight.w400)),
                             ], 
                           ),
                         ],
                       ),
-                      // child: Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      //   children: [
-                      //     Column(
-                      //       mainAxisAlignment: MainAxisAlignment.center,
-                      //       children: [
-                      //           Container(
-                      //           height: 40,
-                      //           decoration: BoxDecoration(
-                      //             borderRadius: BorderRadius.circular(15),
-                      //             color: const Color.fromARGB(1000, 59, 130, 246)
-                      //           ),
-                      //           child: Text(
-                      //             "Acompañantes (${frecuentTravelers.length}) ",
-                      //             style: const TextStyle(
-                      //                 color: Color.fromARGB(255, 255, 255, 255),
-                      //                 fontSize: 20,
-                      //                 fontFamily: 'Poppins',
-                      //                 fontWeight: FontWeight.w400)),
-                      //           )
-                      //       ]    
-                      //     ),
-                      //     const Column(
-                      //       children: [
-                      //         Icon(Icons.supervisor_account, color:  Color.fromARGB(1000, 59, 130, 246),size: 70,), 
-                      //       ],
-                      //     )
-                      //   ],
-                      // ),
                     ),
                   ],
                 ),
@@ -97,7 +87,7 @@ class FrecuentTraveler extends StatelessWidget {
             const SizedBox(height: 40),
             Center(
               child: Column(
-                children: frecuentTravelers.map((orderDetail) {
+                children: frecuentTravelers.map((c) {
                   return SizedBox(
                     height: 250,
                     width: 370,
@@ -108,7 +98,7 @@ class FrecuentTraveler extends StatelessWidget {
                             height: 200,
                             width: 370,
                             decoration: BoxDecoration(
-                              color: const Color.fromARGB(1000, 59, 130, 246),
+                              color: Styles.blue,
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: const [
                                 BoxShadow(
@@ -121,14 +111,14 @@ class FrecuentTraveler extends StatelessWidget {
                                 )
                               ],
                             ),
-                            child: const Stack(
+                            child: Stack(
                               children: [
-                                Positioned(
+                                const Positioned(
                                   left: 0,
                                   top: 40,
                                   child: Icon(
                                     FontAwesomeIcons
-                                        .solidUser, // El icono que desees utilizar
+                                        .solidUser,
                                     size: 165,
                                     color: Color.fromARGB(30, 255, 255, 255),
                                   ),
@@ -144,40 +134,40 @@ class FrecuentTraveler extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Estefanía Álvarez Sepúlveda",
-                                          style: TextStyle(
+                                          "${c['name']} ${c['lastName']}",
+                                          style: const TextStyle(
                                               color: Colors.white,
-                                              fontFamily: "Poppins",
+                                              fontFamily: Styles.mainFont,
                                               fontSize: 14,
                                               fontWeight: FontWeight.bold,
                                               overflow: TextOverflow.ellipsis),
                                         ),
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
                                         Text(
-                                          "Documento: 1017923532",
-                                          style: TextStyle(
+                                          "Documento: ${c['document']}",
+                                          style: const TextStyle(
                                               color: Colors.white,
-                                              fontFamily: "Poppins",
+                                              fontFamily: Styles.mainFont,
                                               fontSize: 14,
                                               fontWeight: FontWeight.bold,
                                               overflow: TextOverflow.ellipsis),
                                         ),
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
                                         Text(
-                                          "18 años",
-                                          style: TextStyle(
+                                          "${c['birthDate']}",
+                                          style: const TextStyle(
                                               color: Colors.white,
-                                              fontFamily: "Poppins",
+                                              fontFamily: Styles.mainFont,
                                               fontSize: 14,
                                               fontWeight: FontWeight.bold,
                                               overflow: TextOverflow.ellipsis),
                                         ),
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
                                         Text(
-                                          "Fondo de afilicacion",
-                                          style: TextStyle(
+                                          c['eps'],
+                                          style: const TextStyle(
                                               color: Colors.white,
-                                              fontFamily: "Poppins",
+                                              fontFamily: Styles.mainFont,
                                               fontSize: 14,
                                               fontWeight: FontWeight.bold,
                                               overflow: TextOverflow.ellipsis),
@@ -211,16 +201,15 @@ class FrecuentTraveler extends StatelessWidget {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 14,
-                                        fontFamily: "Poppins",
+                                        fontFamily: Styles.mainFont,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    orderDetail.unitPrice.toString(),
+                                    "${c['unitPrice']}",
                                     style: const TextStyle(
-                                        color:
-                                            Color.fromARGB(1000, 34, 197, 94),
+                                        color: Styles.green,
                                         fontSize: 14,
-                                        fontFamily: "Poppins",
+                                        fontFamily: Styles.mainFont,
                                         fontWeight: FontWeight.bold),
                                   )
                                 ],
@@ -238,5 +227,28 @@ class FrecuentTraveler extends StatelessWidget {
         ),
       ),
     );
+  }
+  
+  void loadFrecuentTravelers() async {
+    List<dynamic> ft = [];
+    for (var o in widget.orderDetail) {
+      Customer? customer = await ApiService.getCustomerById(o.beneficiaryId);
+      ft.add({
+            "unitPrice": o.unitPrice, 
+            "customerId": customer!.customerId, 
+            "name": customer.name, 
+            "lastName": customer.lastName, 
+            "document": customer.document, 
+            "birthDate": customer.birthDate, 
+            "phoneNumber": customer.phoneNumber, 
+            "address": customer.address, 
+            "eps": customer.eps, 
+            "userId": customer.userId
+          }
+        );
+      setState(() {
+        frecuentTravelers = ft;
+      });
+    }
   }
 }

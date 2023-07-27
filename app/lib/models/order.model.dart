@@ -26,16 +26,28 @@ class Order{
     required this.package, 
   });
 
-  factory Order.fromJson(Map json){
+   factory Order.fromJson(Map<String, dynamic> json) {
+    // Convert the "payment" field to List<Payment>
+    List<dynamic> paymentJson = json["payment"];
+    List<Payment> paymentList = paymentJson.map((item) => Payment.fromJson(item)).toList();
+
+    // Convert the "orderDetail" field to List<Payment>
+    List<dynamic> orderDetailJson = json["orderDetail"];
+    List<OrderDetail> orderDetailList = orderDetailJson.map((item)=>OrderDetail.fromJson(item)).toList();
+
+    // Convert the "orderDetail" field to List<Payment>
+   dynamic packageJson = json["package"];
+   Package package = Package.fromJson(packageJson);
+
     return Order(
-      orderId: json["orderId"], 
-      customerId: json["customerId"], 
-      packageId: json["packageId"], 
-      totalCost: json["totalCost"], 
-      status: json["status"], 
-      payment: json["payment"],
-      orderDetail: json["orderDetail"], 
-      package: json["package"],
+      orderId: json["orderId"],
+      customerId: json["customerId"],
+      packageId: json["packageId"],
+      totalCost: json["totalCost"],
+      status: json["status"],
+      payment: paymentList,
+      orderDetail: orderDetailList,
+      package: package,
     );
   }
 }

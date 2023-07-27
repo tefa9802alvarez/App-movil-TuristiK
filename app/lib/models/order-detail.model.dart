@@ -8,4 +8,12 @@ class OrderDetail{
 
   OrderDetail({required this.orderDetailId, required this.orderId, required this.beneficiaryId, required this.unitPrice});
   
+  factory OrderDetail.fromJson(Map<String, dynamic> json) {
+    return OrderDetail(
+      orderDetailId: json["orderDetailId"],
+      orderId: json["orderId"],
+      beneficiaryId: json["beneficiaryId"],
+      unitPrice: json["unitPrice"]
+    );
+  }
 }

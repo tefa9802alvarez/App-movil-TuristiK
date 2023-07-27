@@ -1,33 +1,31 @@
+import 'package:app/models/order.model.dart';
 import 'package:app/modules/login/login.dart';
 import 'package:app/modules/orders/frecuent_travelers/main.frecuent_traveler.dart';
-import 'package:app/modules/orders/orderexample.dart';
 import 'package:app/partials/app-bar.partial.dart';
+import 'package:app/services/api.service.dart';
+import 'package:app/styles/styles.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-class Orders extends StatefulWidget {
-  const Orders({super.key});
+class MainOrders extends StatefulWidget {
+  const MainOrders({super.key});
   @override
-  State<Orders> createState() => _OrdersState();
+  State<MainOrders> createState() => _MainOrdersState();
 }
 
-class _OrdersState extends State<Orders> {
-  
-  // static List<Order> orderList = [];
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   loadOrders();
-  // }
+class _MainOrdersState extends State<MainOrders> {
+  static List<Order> orderList= [];
 
-  // void loadOrders()async{
-  //   orderList = await ApiService.getOrders();
-  // }
+  @override
+  void initState() {
+    super.initState(); 
+    loadOrders();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(1000, 226, 232, 240),
+      backgroundColor: Styles.lightGrey,
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(70),
         child: AppBarNav(navtitle: "Mis Pedidos",backOption: false),
@@ -98,22 +96,21 @@ class _OrdersState extends State<Orders> {
                                   const SizedBox(height: 20),
                                   Text(item.package.name.toUpperCase(),
                                       style: const TextStyle(
-                                          //color: Color.fromARGB(1000, 59, 130, 246),
                                           fontSize: 16,
-                                          fontFamily: 'Poppins',
+                                          fontFamily: Styles.mainFont,
                                           fontWeight: FontWeight.bold)),
                                   const SizedBox(height: 20),
                                   Text(item.package.departureDate,
-                                      style: TextStyle(
-                                          color: Colors.grey.shade600,
+                                      style: const TextStyle(
+                                          color: Styles.lightGrey,
                                           fontSize: 14,
-                                          fontFamily: 'Poppins',
+                                          fontFamily: Styles.mainFont,
                                           fontWeight: FontWeight.bold)),
                                   Text(item.package.arrivalDate,
-                                      style: TextStyle(
-                                          color: Colors.grey.shade600,
+                                      style: const TextStyle(
+                                          color: Styles.lightGrey,
                                           fontSize: 14,
-                                          fontFamily: 'Poppins',
+                                          fontFamily: Styles.mainFont,
                                           fontWeight: FontWeight.bold)),
                                   const SizedBox(height: 50),
                                   Padding(
@@ -128,7 +125,7 @@ class _OrdersState extends State<Orders> {
                                                 style: const TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 22,
-                                                fontFamily: 'Poppins',
+                                                fontFamily: Styles.mainFont,
                                                 fontWeight:
                                                     FontWeight.w300)),
                                           ],
@@ -142,8 +139,7 @@ class _OrdersState extends State<Orders> {
                                               padding: const EdgeInsets.symmetric(
                                                   vertical: 5, horizontal: 6),
                                               decoration: BoxDecoration(
-                                                color: const Color.fromARGB(
-                                                    1000, 59, 130, 246),
+                                                color: Styles.blue,
                                                 borderRadius:
                                                     BorderRadius.circular(10.0),
                                               ),
@@ -168,8 +164,7 @@ class _OrdersState extends State<Orders> {
                                               padding: const EdgeInsets.symmetric(
                                                   vertical: 5, horizontal: 6),
                                               decoration: BoxDecoration(
-                                                color: const Color.fromARGB(
-                                                    1000, 59, 130, 246),
+                                                color: Styles.blue,
                                                 borderRadius:
                                                     BorderRadius.circular(10.0),
                                               ),
@@ -179,8 +174,8 @@ class _OrdersState extends State<Orders> {
                                                     context,
                                                     MaterialPageRoute(
                                                     builder: (context) =>
-                                                    FrecuentTraveler(
-                                                    frecuentTravelers: item.orderDetail
+                                                    MainFrecuentTraveler(
+                                                    orderDetail: item.orderDetail
                                                     )));
                                                   },
                                                   icon: const Icon(
@@ -205,4 +200,15 @@ class _OrdersState extends State<Orders> {
       ),
     );
   }
+
+  void loadOrders() async {
+    List<Order> orders = await ApiService.getOrdersByCustomerId("5e505bba-d3f6-4439-f906-08db8c8e001d");
+    setState(() {
+      orderList = orders;
+    });
+  }
+
 }
+
+
+
