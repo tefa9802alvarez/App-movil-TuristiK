@@ -1,4 +1,5 @@
 import 'package:app/modules/orders/main.orders.dart';
+import 'package:app/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -73,14 +74,14 @@ class _LoginState extends State<Login> {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 20,
-                                        fontFamily: 'Poppins',
+                                        fontFamily: Styles.mainFont,
                                         fontWeight: FontWeight.bold)),
                                 Text("Por favor, ingresa tus datos",
                                     style: TextStyle(
                                         color:
                                             Color.fromARGB(255, 175, 175, 175),
                                         fontSize: 15,
-                                        fontFamily: 'Poppins',
+                                        fontFamily: Styles.mainFont,
                                         fontWeight: FontWeight.w400))
                               ],
                             )
@@ -94,7 +95,7 @@ class _LoginState extends State<Login> {
                                 hintText: 'Email',
                                 hintStyle: const TextStyle(
                                     color: Color.fromARGB(1000, 203, 213, 225),
-                                    fontFamily: 'Poppins'),
+                                    fontFamily: Styles.mainFont,),
                                 prefixIcon: const Icon(Icons.email_outlined,
                                     color: Color.fromARGB(1000, 203, 213, 225)),
                                 enabledBorder: OutlineInputBorder(
@@ -140,7 +141,7 @@ class _LoginState extends State<Login> {
                                 hintText: 'Constraseña',
                                 hintStyle: const TextStyle(
                                     color: Color.fromARGB(1000, 203, 213, 225),
-                                    fontFamily: 'Poppins'),
+                                    fontFamily: Styles.mainFont,),
                                 prefixIcon: const Icon(Icons.lock_outline,
                                     color: Color.fromARGB(1000, 203, 213, 225)),
                                 enabledBorder: OutlineInputBorder(
@@ -185,7 +186,7 @@ class _LoginState extends State<Login> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const Orders(),
+                                    builder: (context) => const MainOrders(),
                                   ),
                                 );
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -210,7 +211,7 @@ class _LoginState extends State<Login> {
                           child: const Text(
                             "Iniciar Sesión",
                             style: TextStyle(
-                              fontFamily: 'Poppins',
+                              fontFamily: Styles.mainFont,
                               color: Colors.white,
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
