@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 class Styles{
 
   //<-----------------FONTS------------------------>
-  static const mainFont = 'Poppins';
-  static const titleFont = 'Poppins';
+  static const titleFont = 'Poppins-Bold';
+  static const secondTitlefont = 'Poppins-SemiBold';
+  static const subtitleFont = 'Poppins-Light';
+  static const textFont = 'Poppins-ExtraLigth';
 
   //<------------------COLORS---------------------->
   static const Color blue = Color.fromARGB(1000, 59, 130, 246);
@@ -15,7 +17,7 @@ class Styles{
   static const Color lightGreen = Color.fromARGB(1000,202,241,216);
 
   static Color grey = Colors.grey.shade600;
-  static const Color lightGrey = Color.fromARGB(1000, 226, 232, 240);
+  static const Color lightGrey = Color.fromARGB(1000, 247,246,252);
 
   static const Color red = Color.fromARGB(1000,255,98,89);
   static const Color lightred = Color.fromARGB(1000,255,208,206);

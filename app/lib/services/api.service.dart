@@ -6,21 +6,20 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
 
-  static const endPoint = "https://127.0.0.1:7266/api";
-  //static const String endPoint = "http://localhost:7266/api";
+  //static const endPoint = "https://127.0.0.1:7266/api";
+  static const String endPoint = "https://localhost:7266/api";
 
   static Future<List<Order>> getOrdersByCustomerId(String customerId) async{
     List<Order> orderList =[];
     var url = Uri.parse("$endPoint/Order");
     
     final response = await http.get(url);
-   
     // var customer = "5e505bba-d3f6-4439-f906-08db8c8e001d";
     if (response.statusCode==200) {
       final data = List.from(jsonDecode(response.body));
       for (var o in data) {  
         final order = Order.fromJson(o);
-        if (order.customerId == customerId) {
+        if (order.customerId == customerId && order.status != 3) {
           orderList.add(order);
         } 
       }

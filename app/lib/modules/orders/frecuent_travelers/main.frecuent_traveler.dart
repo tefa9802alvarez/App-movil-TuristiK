@@ -30,7 +30,7 @@ class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(1000, 226, 232, 240),
+      backgroundColor: Styles.lightGrey,
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(70),
         child: AppBarNav(navtitle: "Mis Beneficiarios",backOption: true,),
@@ -73,7 +73,7 @@ class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
                                   style: const TextStyle(
                                       color: Color.fromARGB(255, 0, 0, 0),
                                       fontSize: 16,
-                                      fontFamily: Styles.mainFont,
+                                      fontFamily: Styles.secondTitlefont,
                                       fontWeight: FontWeight.w400)),
                             ], 
                           ),
@@ -133,44 +133,56 @@ class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          "${c['name']} ${c['lastName']}",
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: Styles.mainFont,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              overflow: TextOverflow.ellipsis),
+                                        Container(
+                                          constraints: const BoxConstraints(maxWidth: 200),
+                                          child: Text(
+                                            "${c['name']} ${c['lastName']}",
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: Styles.secondTitlefont,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis),
+                                          ),
                                         ),
                                         const SizedBox(height: 10),
                                         Text(
                                           "Documento: ${c['document']}",
                                           style: const TextStyle(
                                               color: Colors.white,
-                                              fontFamily: Styles.mainFont,
+                                              fontFamily: Styles.secondTitlefont,
                                               fontSize: 14,
                                               fontWeight: FontWeight.bold,
                                               overflow: TextOverflow.ellipsis),
                                         ),
                                         const SizedBox(height: 10),
-                                        Text(
-                                          "${c['birthDate']}",
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: Styles.mainFont,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              overflow: TextOverflow.ellipsis),
+                                        FutureBuilder<String>(
+                                          future: calculateDate(c['birthDate']),
+                                          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                            return Text(
+                                              snapshot.data ?? '', 
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: Styles.secondTitlefont,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis
+                                              ),
+                                            );
+                                          },
                                         ),
                                         const SizedBox(height: 10),
-                                        Text(
-                                          c['eps'],
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: Styles.mainFont,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              overflow: TextOverflow.ellipsis),
+                                        Container(
+                                          constraints: const BoxConstraints(maxWidth: 200),
+                                          child: Text(
+                                            c['eps'],
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: Styles.secondTitlefont,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis),
+                                          ),
                                         )
                                       ],
                                     ),
@@ -201,7 +213,7 @@ class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 14,
-                                        fontFamily: Styles.mainFont,
+                                        fontFamily: Styles.secondTitlefont,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
@@ -209,7 +221,7 @@ class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
                                     style: const TextStyle(
                                         color: Styles.green,
                                         fontSize: 14,
-                                        fontFamily: Styles.mainFont,
+                                        fontFamily: Styles.secondTitlefont,
                                         fontWeight: FontWeight.bold),
                                   )
                                 ],
@@ -251,4 +263,14 @@ class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
       });
     }
   }
+
+  Future<String> calculateDate(DateTime date) async {   
+    DateTime fechaNacimiento = date;
+    DateTime fechaActual = DateTime.now();
+    Duration diferencia = fechaActual.difference(fechaNacimiento);
+    int edad = diferencia.inDays ~/ 365;
+    return "${edad.toString()} Años";
+  }
+
+
 }

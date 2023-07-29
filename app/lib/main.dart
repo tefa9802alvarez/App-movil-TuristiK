@@ -1,11 +1,10 @@
 import 'dart:io';
-
-// import 'package:app/modules/login/login.dart';
-import 'package:app/modules/orders/payments/main.payments.dart';
+import 'package:app/modules/orders/frecuent_travelers/main.frecuent_traveler.dart';
+import 'package:app/modules/orders/main.orders.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import 'models/payment.model.dart';
+import 'models/order-detail.model.dart';
+import 'modules/login/login.dart';
 
 void main() {
   if (!kReleaseMode) {
@@ -26,36 +25,28 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(1000,69,30,177)),
         useMaterial3: true,
       ),
-      //home: const Login(),
-      home: MainPayment(paymetList: [
-        Payment(
-            paymentId: "17beecf9-29c5-4a6f-99ad-08db87bcdde7",
-            orderId: "f2e6c8ef-d157-469c-24a2-08db87c95e0e",
-            amount: 1000.00,
-            remainingAmount: 208900.00,
-            date: DateTime.parse("2022-01-02T20:09:37.47"),
-            image: "url",
-            status: 0
-        ),
-        Payment(
-            paymentId: "17beecf9-29c5-4a6f-99ad-08db87bcdde7",
-            orderId: "f2e6c8ef-d157-469c-24a2-08db87c95e0e",
-            amount: 90700.00,
-            remainingAmount: 208900.00,
-            date: DateTime.parse("2023-07-18T20:09:37.47"),
-            image: "url",
-            status: 1
-        ),
-        Payment(
-            paymentId: "17beecf9-29c5-4a6f-99ad-08db87bcdde7",
-            orderId: "f2e6c8ef-d157-469c-24a2-08db87c95e0e",
-            amount: 57000.00,
-            remainingAmount: 208900.00,
-            date: DateTime.parse("2023-05-15T20:09:37.47"),
-            image: "url",
-            status: 2
-        )
-      ]),
+      // home: const Login(),
+      home: const MainOrders(),
+      // // home: MainFrecuentTraveler(orderDetail: [
+      //     OrderDetail(
+      //       orderDetailId: "6c3ecd65-61b5-4842-2edd-08db87c95e19",
+      //       orderId: "f2e6c8ef-d157-469c-24a2-08db87c95e0e",
+      //       beneficiaryId: "acb85669-6220-431c-2329-08db84838b9b",
+      //       unitPrice: 380000.00
+      //     ),
+      //     OrderDetail(
+      //       orderDetailId: "6c3ecd65-61b5-4842-2edd-08db87c95e19",
+      //       orderId: "f2e6c8ef-d157-469c-24a2-08db87c95e0e",
+      //       beneficiaryId: "acb85669-6220-431c-2329-08db84838b9b",
+      //       unitPrice: 150000.00
+      //     ),
+      //     OrderDetail(
+      //       orderDetailId: "6c3ecd65-61b5-4842-2edd-08db87c95e19",
+      //       orderId: "f2e6c8ef-d157-469c-24a2-08db87c95e0e",
+      //       beneficiaryId: "acb85669-6220-431c-2329-08db84838b9b",
+      //       unitPrice: 2580000.00
+      //     )
+      // ]),
       debugShowCheckedModeBanner: false,
     );
   }

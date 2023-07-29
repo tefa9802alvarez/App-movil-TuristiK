@@ -30,7 +30,7 @@ class _MainPaymentState extends State<MainPayment> {
         backgroundColor: Styles.lightGrey,
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(70),
-          child: AppBarNav(navtitle: "Mis Abonos", backOption: false),
+          child: AppBarNav(navtitle: "Mis Abonos", backOption: true),
         ),
         body: Stack(children: [
           Padding(
@@ -75,14 +75,14 @@ class _MainPaymentState extends State<MainPayment> {
                                     snapshot.data ?? '', // Si el resultado es nulo, muestra una cadena vacía o un valor predeterminado
                                     style: const TextStyle(
                                       color: Colors.white,
-                                      fontFamily: Styles.mainFont,
+                                      fontFamily: Styles.secondTitlefont,
                                     ),
                                   );
                                 },
                               ),
                               Text("\$ ${item['amount'].toString()}",style: const TextStyle(
                                 color: Colors.white,
-                                fontFamily: Styles.mainFont,
+                                fontFamily: Styles.secondTitlefont,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),),
@@ -112,7 +112,7 @@ class _MainPaymentState extends State<MainPayment> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         const Text("Monto restante",style: TextStyle(
-                                          fontFamily: Styles.mainFont,
+                                          fontFamily: Styles.secondTitlefont,
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold
                                         ),),
@@ -124,7 +124,7 @@ class _MainPaymentState extends State<MainPayment> {
                                                 style: const TextStyle(
                                                 color: Styles.green,
                                                 fontSize: 18,
-                                                fontFamily: Styles.mainFont,
+                                                fontFamily: Styles.secondTitlefont,
                                                 fontWeight: FontWeight.bold)),
                                           ],
                                         ),
@@ -153,7 +153,7 @@ class _MainPaymentState extends State<MainPayment> {
                                                   style: TextStyle(
                                                       color: Styles.statusColorText(item['status'], 'payments'),
                                                       fontSize: 18,
-                                                      fontFamily: Styles.mainFont,
+                                                      fontFamily: Styles.secondTitlefont,
                                                       fontWeight: FontWeight.bold),
                                                 )
                                               ],

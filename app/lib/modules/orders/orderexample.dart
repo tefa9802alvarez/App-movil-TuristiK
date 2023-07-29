@@ -3,7 +3,7 @@ import 'package:app/models/order.model.dart';
 import 'package:app/models/package.model.dart';
 import 'package:app/models/payment.model.dart';
 
-List<Order> orderList = [
+List<Order> orderExampleList = [
     Order(
       orderId: "12321213",
       customerId: "4082de5a-8818-4181-232a-08db84838b9b",
@@ -15,8 +15,8 @@ List<Order> orderList = [
         details: "El clima en Coveñas es tropical, con temperaturas cálidas durante todo el año y una temporada de lluvias entre mayo y noviembre.",
         transport: "0",
         hotel: "palace hotel",
-        departureDate: "2023-07-28T19:51:04",
-        arrivalDate: "2023-07-30T19:51:09",
+        departureDate: DateTime.parse("2023-12-24T19:51:04"),
+        arrivalDate: DateTime.parse("2024-01-10T19:51:09"),
         departurePoint: "La terminal ",
         totalQuotas: 50,
         availableQuotas: 45,
@@ -67,8 +67,8 @@ List<Order> orderList = [
         details: "El clima en Coveñas es tropical, con temperaturas cálidas durante todo el año y una temporada de lluvias entre mayo y noviembre.",
         transport: "0",
         hotel: "palace hotel",
-        departureDate: "2023-07-28T19:51:04",
-        arrivalDate: "2023-07-30T19:51:09",
+        departureDate: DateTime.parse("2023-11-02T19:51:04"),
+        arrivalDate: DateTime.parse("2023-11-08T19:51:09"),
         departurePoint: "La terminal ",
         totalQuotas: 50,
         availableQuotas: 45,
@@ -119,8 +119,8 @@ List<Order> orderList = [
         details: "El clima en Coveñas es tropical, con temperaturas cálidas durante todo el año y una temporada de lluvias entre mayo y noviembre.",
         transport: "0",
         hotel: "palace hotel",
-        departureDate: "2023-07-28T19:51:04",
-        arrivalDate: "2023-07-30T19:51:09",
+        departureDate: DateTime.parse("2023-07-28T19:51:04"),
+        arrivalDate: DateTime.parse("2022-01-30T19:51:09"),
         departurePoint: "La terminal ",
         totalQuotas: 50,
         availableQuotas: 45,

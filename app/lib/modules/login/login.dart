@@ -21,7 +21,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(1000, 226, 232, 240),
+      backgroundColor: Styles.lightGrey,
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -74,14 +74,14 @@ class _LoginState extends State<Login> {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 20,
-                                        fontFamily: Styles.mainFont,
+                                        fontFamily: Styles.secondTitlefont,
                                         fontWeight: FontWeight.bold)),
                                 Text("Por favor, ingresa tus datos",
                                     style: TextStyle(
                                         color:
                                             Color.fromARGB(255, 175, 175, 175),
                                         fontSize: 15,
-                                        fontFamily: Styles.mainFont,
+                                        fontFamily: Styles.secondTitlefont,
                                         fontWeight: FontWeight.w400))
                               ],
                             )
@@ -95,7 +95,7 @@ class _LoginState extends State<Login> {
                                 hintText: 'Email',
                                 hintStyle: const TextStyle(
                                     color: Color.fromARGB(1000, 203, 213, 225),
-                                    fontFamily: Styles.mainFont,),
+                                    fontFamily: Styles.secondTitlefont,),
                                 prefixIcon: const Icon(Icons.email_outlined,
                                     color: Color.fromARGB(1000, 203, 213, 225)),
                                 enabledBorder: OutlineInputBorder(
@@ -141,7 +141,7 @@ class _LoginState extends State<Login> {
                                 hintText: 'Constraseña',
                                 hintStyle: const TextStyle(
                                     color: Color.fromARGB(1000, 203, 213, 225),
-                                    fontFamily: Styles.mainFont,),
+                                    fontFamily: Styles.secondTitlefont,),
                                 prefixIcon: const Icon(Icons.lock_outline,
                                     color: Color.fromARGB(1000, 203, 213, 225)),
                                 enabledBorder: OutlineInputBorder(
@@ -211,7 +211,7 @@ class _LoginState extends State<Login> {
                           child: const Text(
                             "Iniciar Sesión",
                             style: TextStyle(
-                              fontFamily: Styles.mainFont,
+                              fontFamily: Styles.secondTitlefont,
                               color: Colors.white,
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
