@@ -1,8 +1,7 @@
 import 'package:app/modules/login/login.dart';
 import 'package:app/styles/styles.dart';
 import 'package:flutter/material.dart';
-
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class AppBarNav extends StatelessWidget {
   final String navtitle;
   final bool backOption ;
@@ -13,9 +12,9 @@ class AppBarNav extends StatelessWidget {
   Widget build(BuildContext context) {
     return 
       Padding(
-        padding: const EdgeInsets.only(top: 20),
+        padding: const EdgeInsets.only(top: 30),
         child: AppBar(
-          backgroundColor: Styles.lightGrey,
+          backgroundColor: const Color.fromARGB(0, 247, 246, 252),
           title:  
           Padding(
             padding: const EdgeInsets.only(left:10),
@@ -50,12 +49,11 @@ class AppBarNav extends StatelessWidget {
           ),
           actions: [
             Padding(
-              padding: const EdgeInsets.only(right: 10,top: 10),
+              padding: const EdgeInsets.only(right: 20),
               child: IconButton(onPressed: (){
                 Navigator.push(context,MaterialPageRoute(builder: (context)=>const Login()));
               },icon: const Icon(
-               Icons.account_circle,color: Styles.blue,size: 35,
-                //Icons.logout_rounded,color: Colors.white,size: 25,
+                FontAwesomeIcons.rightFromBracket,color: Styles.blue,size: 25,
               )),
             ),
           ],

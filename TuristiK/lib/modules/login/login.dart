@@ -1,4 +1,6 @@
+import 'package:app/models/toke.model.dart';
 import 'package:app/modules/orders/main.orders.dart';
+import 'package:app/services/api.service.dart';
 import 'package:app/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,7 +18,7 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  String message = "";
+  late Token token;
 
   @override
   Widget build(BuildContext context) {
@@ -178,20 +180,30 @@ class _LoginState extends State<Login> {
                         ElevatedButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              // String email = _emailController.text;
-                              // String password = _passwordController.text;
-                              // String message = "";
+                              String email = _emailController.text;
+                              String password = _passwordController.text;
+                              //login(email, password);
 
-                              setState(() {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const MainOrders(),
-                                  ),
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text(message)),
-                                );
+                              ApiService.login(email, password).then((token) {
+                                if (token.success) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const MainOrders(),
+                                    ),
+                                  );
+                                }else{
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(token.message,style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontFamily: Styles.secondTitlefont
+                                      ),),
+                                      backgroundColor: Styles.red,
+                                    ),
+                                  );
+                                }
                               });
                             }
                           },
@@ -227,4 +239,5 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
 }

@@ -6,6 +6,15 @@ class Token{
 
   Token({required this.success, required this.message, required this.result});
 
+ // Constructor fromJson para crear una instancia de Token desde un Map JSON
+  factory Token.fromJson(Map<String, dynamic> json) {
+    return Token(
+      success: json['success'],
+      message: json['message'],
+      result: json['result'],
+    );
+  }
+
 }
 
 

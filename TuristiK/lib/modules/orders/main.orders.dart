@@ -3,14 +3,12 @@ import 'package:app/modules/orders/frecuent_travelers/main.frecuent_traveler.dar
 import 'package:app/modules/orders/payments/main.payments.dart';
 import 'package:app/partials/app-bar.partial.dart';
 import 'package:app/services/api.service.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart' as fw;
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:app/styles/styles.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-
-import 'orderexample.dart';
 
 class MainOrders extends StatefulWidget {
   const MainOrders({super.key});
@@ -32,93 +30,70 @@ class _MainOrdersState extends State<MainOrders> {
     return Scaffold(
       backgroundColor: Styles.lightGrey,
       appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(90),
-        child: AppBarNav(navtitle: "Mis Pedidos", backOption: false,description: "Todas sus aventuras al instante",),
+        preferredSize: Size.fromHeight(85),
+        child: AppBarNav(
+          navtitle: "Mis Pedidos",
+          backOption: false,
+          description: "Todas sus aventuras al instante",
+        ),
       ),
-      body: Builder(
-        builder: (context) {
-          final double height = MediaQuery.of(context).size.height;
-          return CarouselSlider(
-            options: CarouselOptions(
-                height: height,
-                viewportFraction: 1.0,
-                enlargeCenterPage: false,
-                autoPlay: true,
-                autoPlayInterval: const Duration(seconds: 3),
-                autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                aspectRatio: 16 / 9),
-            items: orderList
-                .map((item) => SizedBox(
-                      child: Stack(children: [
-                        Image.network(
-                          item.package.image,
-                          fit: BoxFit.cover,
-                          height: height,
-                        ),
-                        Positioned(
-                            child: Container(
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  begin: Alignment.bottomCenter,
-                                  end: Alignment.topCenter,
-                                  colors: [
-                                Colors.grey.shade50.withOpacity(1),
-                                Colors.grey.shade50.withOpacity(1),
-                                Colors.grey.shade50.withOpacity(1),
-                                Colors.grey.shade50.withOpacity(1),
-                                Colors.grey.shade50.withOpacity(0),
-                                Colors.grey.shade50.withOpacity(0),
-                                Colors.grey.shade50.withOpacity(0),
-                                Colors.grey.shade50.withOpacity(0),
-                              ])),
-                        )),
-                        Positioned(
-                            bottom: 100,
-                            height: 630,
-                            width: 340,
-                            left: (MediaQuery.of(context).size.width - 340) / 2,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color.fromARGB(87, 0, 0, 0),
-                                      blurRadius: 15.0,
-                                      offset: Offset(
-                                        15,
-                                        15,
-                                      ),
-                                    )
-                                  ],
-                                  color:
-                                      const Color.fromARGB(255, 255, 255, 255),
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: SingleChildScrollView(
+      body: Center(
+        child: Builder(
+          builder: (context) {
+            final double height = MediaQuery.of(context).size.height;
+            return CarouselSlider(
+              options: CarouselOptions(
+                  height: height,
+                  viewportFraction: 1.0,
+                  enlargeCenterPage: false,
+                  autoPlay: true,
+                  autoPlayInterval: const Duration(seconds: 3),
+                  autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                  aspectRatio: 16 / 9),
+              items: orderList
+                  .map((item) => Stack(
+                    children: [
+                      Positioned(
+                        top: 50,
+                        height: 600,
+                        width: 330,
+                        left: (MediaQuery.of(context).size.width - 330) / 2,
+                        child: Container(
+                                decoration: BoxDecoration(
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Color.fromARGB(87, 0, 0, 0),
+                                        blurRadius: 15.0,
+                                        offset: Offset(
+                                          15,
+                                          15,
+                                        ),
+                                      )
+                                    ],
+                                    color: const Color.fromARGB(255, 255, 255, 255),
+                                    borderRadius: BorderRadius.circular(15)),
                                 child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
                                     children: [
                                       Container(
                                         height: 180,
-                                        width: 300,
+                                        width: 280,
                                         margin: const EdgeInsets.only(top: 30),
                                         clipBehavior: Clip.hardEdge,
                                         decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(10),
                                         ),
                                         child: Image.network(
                                           item.package.image,
                                           fit: BoxFit.cover,
                                         ),
                                       ),
-                                      const SizedBox(height: 20),
+                                      const SizedBox(height: 15),
                                       FutureBuilder<List<String>>(
                                         future: formatDateRange(
                                             item.package.departureDate,
                                             item.package.arrivalDate),
                                         builder: (BuildContext context,
-                                            AsyncSnapshot<List<String>>
-                                                snapshot) {
+                                            AsyncSnapshot<List<String>> snapshot) {
                                           if (snapshot.connectionState ==
                                               ConnectionState.waiting) {
                                             return const CircularProgressIndicator();
@@ -128,8 +103,7 @@ class _MainOrdersState extends State<MainOrders> {
                                                 style: TextStyle(
                                                   color: Styles.red,
                                                   fontSize: 14,
-                                                  fontFamily:
-                                                      Styles.secondTitlefont,
+                                                  fontFamily: Styles.secondTitlefont,
                                                 ));
                                           } else {
                                             String departureDateText =
@@ -145,16 +119,14 @@ class _MainOrdersState extends State<MainOrders> {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Container(
-                                                  constraints:
-                                                      const BoxConstraints(
-                                                          maxWidth: 280),
+                                                  constraints: const BoxConstraints(
+                                                      maxWidth: 280),
                                                   child: Text(
                                                     "Desde $departureDateText Hasta $arrivalDateText",
                                                     style: const TextStyle(
                                                       color: Styles.blue,
-                                                      fontSize: 13,
-                                                      fontFamily:
-                                                          Styles.subtitleFont,
+                                                      fontSize: 14,
+                                                      fontFamily: Styles.subtitleFont,
                                                     ),
                                                     maxLines:
                                                         2, // Limit the text to two lines
@@ -171,10 +143,10 @@ class _MainOrdersState extends State<MainOrders> {
                                               fontSize: 18,
                                               fontFamily: Styles.titleFont,
                                               fontWeight: FontWeight.bold)),
-                                      const SizedBox(height: 30),
+                                      const SizedBox(height: 25),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 30),
+                                        padding:
+                                            const EdgeInsets.symmetric(horizontal: 30),
                                         child: Column(
                                           children: [
                                             Padding(
@@ -182,53 +154,47 @@ class _MainOrdersState extends State<MainOrders> {
                                                   bottom: 10, top: 5),
                                               child: Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                    MainAxisAlignment.spaceBetween,
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   Column(
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                        CrossAxisAlignment.start,
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
+                                                        MainAxisAlignment.spaceAround,
                                                     children: [
                                                       const Text("Salida",
                                                           style: TextStyle(
                                                             fontSize: 15,
-                                                            fontFamily: Styles
-                                                                .secondTitlefont,
+                                                            fontFamily:
+                                                                Styles.secondTitlefont,
                                                           )),
                                                       Container(
                                                         constraints:
                                                             const BoxConstraints(
                                                                 maxWidth: 200),
                                                         child: Text(
-                                                          item.package
-                                                              .departurePoint,
+                                                          item.package.departurePoint,
                                                           style: const TextStyle(
                                                               fontSize: 15,
-                                                              fontFamily: Styles
-                                                                  .textFont,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis),
+                                                              fontFamily:
+                                                                  Styles.textFont,
+                                                              overflow: TextOverflow
+                                                                  .ellipsis),
                                                           maxLines: 2,
                                                         ),
                                                       )
                                                     ],
                                                   ),
                                                   const Icon(Icons.location_on,
-                                                      color: Styles.blue,
-                                                      size: 30)
+                                                      color: Styles.blue, size: 30)
                                                 ],
                                               ),
                                             ),
                                             const Divider(
-                                              color: Color.fromRGBO(
-                                                  231, 231, 231, 0.91),
+                                              color:
+                                                  Color.fromRGBO(231, 231, 231, 0.91),
                                               thickness: 0.8,
                                             ),
                                             Padding(
@@ -236,40 +202,35 @@ class _MainOrdersState extends State<MainOrders> {
                                                   bottom: 10, top: 5),
                                               child: Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                    MainAxisAlignment.spaceBetween,
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   Column(
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                        CrossAxisAlignment.start,
                                                     children: [
                                                       const Text("Tranporte",
                                                           style: TextStyle(
                                                             fontSize: 15,
-                                                            fontFamily: Styles
-                                                                .secondTitlefont,
+                                                            fontFamily:
+                                                                Styles.secondTitlefont,
                                                           )),
                                                       Text(
                                                         // ignore: unrelated_type_equality_checks
-                                                        item.package.transport ==
-                                                                2
+                                                        item.package.transport == 2
                                                             ? "Terrestre"
                                                             : "Aereo",
                                                         style: const TextStyle(
                                                           fontSize: 15,
-                                                          fontFamily:
-                                                              Styles.textFont,
+                                                          fontFamily: Styles.textFont,
                                                         ),
                                                       )
                                                     ],
                                                   ),
                                                   Icon(
                                                       // ignore: unrelated_type_equality_checks
-                                                      item.package.transport ==
-                                                              2
+                                                      item.package.transport == 2
                                                           ? Icons.directions_bus
                                                           : Icons
                                                               .airplanemode_on_rounded,
@@ -279,77 +240,71 @@ class _MainOrdersState extends State<MainOrders> {
                                               ),
                                             ),
                                             const Divider(
-                                              color: Color.fromRGBO(
-                                                  231, 231, 231, 0.91),
+                                              color:
+                                                  Color.fromRGBO(231, 231, 231, 0.91),
                                               thickness: 0.8,
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  bottom: 10, top: 5),
+                                                  bottom: 5, top: 5),
                                               child: Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                    MainAxisAlignment.spaceBetween,
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   Column(
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                        CrossAxisAlignment.start,
                                                     children: [
                                                       const Text("Hotel",
                                                           style: TextStyle(
                                                             fontSize: 15,
-                                                            fontFamily: Styles
-                                                                .secondTitlefont,
+                                                            fontFamily:
+                                                                Styles.secondTitlefont,
                                                           )),
                                                       Text(
                                                         item.package.hotel,
                                                         style: const TextStyle(
                                                           fontSize: 15,
-                                                          fontFamily:
-                                                              Styles.textFont,
+                                                          fontFamily: Styles.textFont,
                                                         ),
                                                       )
                                                     ],
                                                   ),
                                                   const Icon(
-                                                      fw.FontAwesomeIcons
-                                                          .solidBuilding,
+                                                      FontAwesomeIcons.solidBuilding,
                                                       color: Styles.blue,
                                                       size: 30)
                                                 ],
                                               ),
                                             ),
                                             const Divider(
-                                              color: Color.fromRGBO(
-                                                  231, 231, 231, 0.91),
+                                              color:
+                                                  Color.fromRGBO(231, 231, 231, 0.91),
                                               thickness: 0.8,
                                             ),
                                           ],
                                         ),
                                       ),
-                                      const SizedBox(height: 30),
+                                      const SizedBox(height: 20),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20),
+                                        padding:
+                                            const EdgeInsets.symmetric(horizontal: 20),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Row(
                                               children: [
-                                                const Icon(
-                                                    Icons.attach_money_sharp,
-                                                    color: Colors.green,
-                                                    size: 22),
+                                                const Icon(Icons.attach_money_sharp,
+                                                    color: Colors.green, size: 22),
                                                 Text('${item.package.price}',
                                                     style: const TextStyle(
                                                       color: Colors.green,
                                                       fontSize: 22,
-                                                      fontFamily: Styles
-                                                          .secondTitlefont,
+                                                      fontFamily:
+                                                          Styles.secondTitlefont,
                                                     )),
                                               ],
                                             ),
@@ -363,12 +318,13 @@ class _MainOrdersState extends State<MainOrders> {
                                                   decoration: BoxDecoration(
                                                     color: Styles.blue,
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
+                                                        BorderRadius.circular(10.0),
                                                   ),
                                                   child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.center,
                                                     children: [
                                                       IconButton(
                                                           onPressed: () {
@@ -395,12 +351,13 @@ class _MainOrdersState extends State<MainOrders> {
                                                   decoration: BoxDecoration(
                                                     color: Styles.blue,
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
+                                                        BorderRadius.circular(10.0),
                                                   ),
                                                   child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.center,
                                                     children: [
                                                       IconButton(
                                                           onPressed: () {
@@ -413,8 +370,7 @@ class _MainOrdersState extends State<MainOrders> {
                                                                                 item.orderDetail)));
                                                           },
                                                           icon: const Icon(
-                                                            Icons
-                                                                .supervisor_account,
+                                                            Icons.supervisor_account,
                                                             color: Colors.white,
                                                             size: 25,
                                                           )),
@@ -428,20 +384,22 @@ class _MainOrdersState extends State<MainOrders> {
                                       )
                                     ]),
                               ),
-                            ))
-                      ]),
-                    ))
-                .toList(),
-          );
-        },
+                      ),
+                    ],
+                  ),
+                  )
+                  .toList(),
+            );
+          },
+        ),
       ),
     );
   }
 
   void loadOrders() async {
-    // List<Order> orders = await ApiService.getOrdersByCustomerId(
-    //     "375e1b43-3c84-494e-9560-08db8fc9af76");
-    List<Order> orders = orderExampleList;
+    List<Order> orders = await ApiService.getOrdersByCustomerId(
+        "375e1b43-3c84-494e-9560-08db8fc9af76");
+    // List<Order> orders = orderExampleList;
     setState(() {
       orderList = orders;
     });
@@ -451,10 +409,6 @@ class _MainOrdersState extends State<MainOrders> {
     try {
       await initializeDateFormatting('es_ES', null);
       String formattedDateTime = DateFormat('dd MMM y', 'es_ES').format(date);
-      // String capitalizedMonth = formattedDateTime.replaceFirstMapped(
-      //   RegExp(r'^[a-z]'),
-      //   (match) => match[0]!.toUpperCase(),
-      // );
       return formattedDateTime;
     } catch (e) {
       return 'Fecha no disponible';
@@ -477,4 +431,5 @@ class _MainOrdersState extends State<MainOrders> {
       return ['Fecha no disponible', 'Fecha no disponible'];
     }
   }
+  
 }

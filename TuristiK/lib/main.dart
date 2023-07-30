@@ -1,9 +1,6 @@
 import 'dart:io';
-import 'package:app/modules/orders/frecuent_travelers/main.frecuent_traveler.dart';
-import 'package:app/modules/orders/main.orders.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'models/order-detail.model.dart';
 import 'modules/login/login.dart';
 
 void main() {
@@ -25,8 +22,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(1000,69,30,177)),
         useMaterial3: true,
       ),
-      // home: const Login(),
-      home: const MainOrders(),
+      home: const Login(),
+      
       // // home: MainFrecuentTraveler(orderDetail: [
       //     OrderDetail(
       //       orderDetailId: "6c3ecd65-61b5-4842-2edd-08db87c95e19",
