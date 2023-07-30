@@ -1,4 +1,6 @@
+import 'package:app/models/toke.model.dart';
 import 'package:app/modules/orders/main.orders.dart';
+import 'package:app/services/api.service.dart';
 import 'package:app/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,12 +18,12 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  String message = "";
+  late Token token;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(1000, 226, 232, 240),
+      backgroundColor: Styles.lightGrey,
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -74,14 +76,14 @@ class _LoginState extends State<Login> {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 20,
-                                        fontFamily: Styles.mainFont,
+                                        fontFamily: Styles.secondTitlefont,
                                         fontWeight: FontWeight.bold)),
                                 Text("Por favor, ingresa tus datos",
                                     style: TextStyle(
                                         color:
                                             Color.fromARGB(255, 175, 175, 175),
                                         fontSize: 15,
-                                        fontFamily: Styles.mainFont,
+                                        fontFamily: Styles.secondTitlefont,
                                         fontWeight: FontWeight.w400))
                               ],
                             )
@@ -95,7 +97,7 @@ class _LoginState extends State<Login> {
                                 hintText: 'Email',
                                 hintStyle: const TextStyle(
                                     color: Color.fromARGB(1000, 203, 213, 225),
-                                    fontFamily: Styles.mainFont,),
+                                    fontFamily: Styles.secondTitlefont,),
                                 prefixIcon: const Icon(Icons.email_outlined,
                                     color: Color.fromARGB(1000, 203, 213, 225)),
                                 enabledBorder: OutlineInputBorder(
@@ -141,7 +143,7 @@ class _LoginState extends State<Login> {
                                 hintText: 'Constraseña',
                                 hintStyle: const TextStyle(
                                     color: Color.fromARGB(1000, 203, 213, 225),
-                                    fontFamily: Styles.mainFont,),
+                                    fontFamily: Styles.secondTitlefont,),
                                 prefixIcon: const Icon(Icons.lock_outline,
                                     color: Color.fromARGB(1000, 203, 213, 225)),
                                 enabledBorder: OutlineInputBorder(
@@ -178,20 +180,30 @@ class _LoginState extends State<Login> {
                         ElevatedButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              // String email = _emailController.text;
-                              // String password = _passwordController.text;
-                              // String message = "";
+                              String email = _emailController.text;
+                              String password = _passwordController.text;
+                              //login(email, password);
 
-                              setState(() {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const MainOrders(),
-                                  ),
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text(message)),
-                                );
+                              ApiService.login(email, password).then((token) {
+                                if (token.success) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const MainOrders(),
+                                    ),
+                                  );
+                                }else{
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(token.message,style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontFamily: Styles.secondTitlefont
+                                      ),),
+                                      backgroundColor: Styles.red,
+                                    ),
+                                  );
+                                }
                               });
                             }
                           },
@@ -211,7 +223,7 @@ class _LoginState extends State<Login> {
                           child: const Text(
                             "Iniciar Sesión",
                             style: TextStyle(
-                              fontFamily: Styles.mainFont,
+                              fontFamily: Styles.secondTitlefont,
                               color: Colors.white,
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -227,4 +239,5 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
 }

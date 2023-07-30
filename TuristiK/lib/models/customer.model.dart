@@ -4,7 +4,7 @@ class Customer{
   final String name;
   final String lastName;
   final String document;
-  final String birthDate;
+  final DateTime birthDate;
   final String phoneNumber;
   final String address;
   final String eps;
@@ -18,7 +18,7 @@ class Customer{
       name : json["name"],
       lastName : json["lastName"],
       document : json["document"],
-      birthDate : json["birthDate"],
+      birthDate : DateTime.parse(json["birthDate"]),
       phoneNumber : json["phoneNumber"],
       address : json["address"],
       eps : json["eps"],

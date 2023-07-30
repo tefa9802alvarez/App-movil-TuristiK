@@ -6,8 +6,8 @@ class Package{
   final String destination;
   final String transport;
   final String hotel;
-  final String arrivalDate;
-  final String departureDate;
+  final DateTime arrivalDate;
+  final DateTime departureDate;
   final String departurePoint;
   final int totalQuotas; 
   final int availableQuotas;
@@ -28,8 +28,8 @@ class Package{
       destination: json["destination"],
       transport: json["transport"],
       hotel: json["hotel"],
-      arrivalDate: json["arrivalDate"],
-      departureDate: json["departureDate"],
+      arrivalDate: DateTime.parse(json["arrivalDate"]),
+      departureDate: DateTime.parse(json["departureDate"]),
       departurePoint: json["departurePoint"],
       totalQuotas: json["totalQuotas"],
       availableQuotas: json["availableQuotas"],
