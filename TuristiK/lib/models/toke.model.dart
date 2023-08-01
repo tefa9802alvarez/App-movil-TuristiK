@@ -32,5 +32,20 @@ class UserLog{
   final String roleId;
 
   UserLog({required this.sub, required this.jti, required this.iat, required this.id, required this.userName, required this.email, required this.iss, required this.aud, required this.role, required this.roleId});
+
+  factory UserLog.fromJson(Map<String, dynamic> json) {
+    return UserLog(
+      sub: json['sub'],
+      jti: json['jti'],
+      iat: json['iat'],
+      id: json['id'],
+      userName: json['userName'],
+      email: json['email'],
+      iss: json['iss'],
+      aud: json['aud'],
+      role: json['role'],
+      roleId: json['roleId'],
+    );
+  }
 }
 

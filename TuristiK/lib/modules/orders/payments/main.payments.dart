@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
-
 import 'package:app/models/payment.model.dart';
 import 'package:app/partials/app-bar.partial.dart';
 import 'package:app/styles/styles.dart';
