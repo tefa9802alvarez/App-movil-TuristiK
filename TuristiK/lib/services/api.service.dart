@@ -77,20 +77,20 @@ class ApiService {
     }
     return customer;
   }
+  
   static Future<List<Payment>> getPaymentsByOrderId(String orderId) async{
     List<Payment> paymentList =[];
-    var url = Uri.parse("$endPoint/Payment");
+    var url = Uri.parse("$endPoint/Payment/ByOrder/$orderId");
     
     final response = await http.get(url);
     if (response.statusCode==200) {
       final data = List.from(jsonDecode(response.body));
       for (var o in data) { 
         final payment = Payment.fromJson(o);
-        if (payment.orderId == orderId) {
+        if (payment.orderId == orderId && payment.status != 2) {
           paymentList.add(payment);
         } 
       }
-      
     }
     return paymentList;
   }

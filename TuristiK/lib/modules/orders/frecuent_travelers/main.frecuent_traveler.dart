@@ -1,5 +1,4 @@
 import 'package:app/models/customer.model.dart';
-import 'package:app/models/order-detail.model.dart';
 import 'package:app/partials/app-bar.partial.dart';
 import 'package:app/services/api.service.dart';
 import 'package:app/styles/styles.dart';
@@ -7,9 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MainFrecuentTraveler extends StatefulWidget {
-  final List<OrderDetail> orderDetail;
+  // final List<OrderDetail> orderDetail;
+  final String orderId;
   const MainFrecuentTraveler(
-      {super.key, required this.orderDetail});
+      {super.key, required this.orderId});
 
   @override
   State<MainFrecuentTraveler> createState() => _MainFrecuentTravelerState();
@@ -18,11 +18,12 @@ class MainFrecuentTraveler extends StatefulWidget {
 class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
 
   static List<dynamic> frecuentTravelers = [];
+   static List<dynamic> orderDetail = [];
 
   @override
   void initState() {
     super.initState(); 
-    loadFrecuentTravelers();
+    loadPayments(widget.orderId);
   }
 
 
@@ -69,7 +70,7 @@ class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                  "Acompañantes (${widget.orderDetail.length}) ",
+                                  "Acompañantes (${frecuentTravelers.length}) ",
                                   style: const TextStyle(
                                       color: Color.fromARGB(255, 0, 0, 0),
                                       fontSize: 16,
@@ -197,7 +198,7 @@ class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
                           right: 20,
                           child: Container(
                             height: 30,
-                            width: 200,
+                            width: 230,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
@@ -235,33 +236,41 @@ class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
                 }).toList(),
               ),
             ),
+          
           ],
         ),
       ),
     );
   }
   
-  void loadFrecuentTravelers() async {
+  void  loadPayments(String orderId) async {
+    List<dynamic> payments = await ApiService.getPaymentsByOrderId(orderId);
     List<dynamic> ft = [];
-    for (var o in widget.orderDetail) {
-      Customer? customer = await ApiService.getCustomerById(o.beneficiaryId);
-      ft.add({
-            "unitPrice": o.unitPrice, 
-            "customerId": customer!.customerId, 
-            "name": customer.name, 
-            "lastName": customer.lastName, 
-            "document": customer.document, 
-            "birthDate": customer.birthDate, 
-            "phoneNumber": customer.phoneNumber, 
-            "address": customer.address, 
-            "eps": customer.eps, 
-            "userId": customer.userId
-          }
-        );
-      setState(() {
-        frecuentTravelers = ft;
-      });
+
+    for (var p in payments) {
+      for (var o in p.orderDetail) {
+        Customer? customer = await ApiService.getCustomerById(o.beneficiaryId);
+        ft.add({
+              "status": p.status,
+              "unitPrice": o.unitPrice, 
+              "customerId": customer!.customerId, 
+              "name": customer.name, 
+              "lastName": customer.lastName, 
+              "document": customer.document, 
+              "birthDate": customer.birthDate, 
+              "phoneNumber": customer.phoneNumber, 
+              "address": customer.address, 
+              "eps": customer.eps, 
+              "userId": customer.userId
+            }
+          );
+      }
     }
+
+    setState(() {
+      frecuentTravelers = ft;
+    });
+
   }
 
   Future<String> calculateDate(DateTime date) async {   
@@ -271,6 +280,8 @@ class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
     int edad = diferencia.inDays ~/ 365;
     return "${edad.toString()} Años";
   }
-
+  
+  
+  
 
 }
