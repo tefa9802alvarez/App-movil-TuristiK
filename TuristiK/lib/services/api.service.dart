@@ -2,6 +2,8 @@
 import 'dart:convert';
 import 'package:app/models/customer.model.dart';
 import 'package:app/models/order.model.dart';
+import 'package:app/models/package.model.dart';
+import 'package:app/models/payment.model.dart';
 import 'package:app/models/toke.model.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,12 +15,10 @@ class ApiService {
   static Future<List<Order>> getOrdersByCustomerId(String customerId) async{
     List<Order> orderList =[];
     var url = Uri.parse("$endPoint/Order");
-    
     final response = await http.get(url);
-    // var customer = "5e505bba-d3f6-4439-f906-08db8c8e001d";
     if (response.statusCode==200) {
       final data = List.from(jsonDecode(response.body));
-      for (var o in data) {  
+      for (var o in data) { 
         final order = Order.fromJson(o);
         if (order.customerId == customerId && order.status != 3) {
           orderList.add(order);
@@ -26,8 +26,27 @@ class ApiService {
       }
       
     }
+    
     return orderList;
   }
+
+  static Future<List<Package>> getPackages() async{
+
+      List<Package> packageList =[];
+      var url = Uri.parse("$endPoint/Package");
+      
+      final response = await http.get(url);
+      if (response.statusCode==200) {
+        final data = List.from(jsonDecode(response.body));
+
+        for (var p in data){  
+          final package = Package.fromJson(p);
+          packageList.add(package);
+        }    
+      }
+
+      return packageList;
+    }
 
   static Future<Customer?> getCustomerById(String customerId) async{
     
@@ -42,6 +61,24 @@ class ApiService {
       customer = null;
     }
     return customer;
+  }
+
+  static Future<List<Payment>> getPaymentsByOrderId(String orderId) async{
+    List<Payment> paymentList =[];
+    var url = Uri.parse("$endPoint/Payment");
+    
+    final response = await http.get(url);
+    if (response.statusCode==200) {
+      final data = List.from(jsonDecode(response.body));
+      for (var o in data) { 
+        final payment = Payment.fromJson(o);
+        if (payment.orderId == orderId) {
+          paymentList.add(payment);
+        } 
+      }
+      
+    }
+    return paymentList;
   }
 
   static Future<Token> login(String email, String password) async {

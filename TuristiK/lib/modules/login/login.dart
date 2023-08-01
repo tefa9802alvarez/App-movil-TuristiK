@@ -18,8 +18,14 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  var _isObscured;
   late Token token;
 
+  @override
+  void initState() {
+    super.initState();
+    _isObscured = true;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,28 +102,28 @@ class _LoginState extends State<Login> {
                               decoration: InputDecoration(
                                 hintText: 'Email',
                                 hintStyle: const TextStyle(
-                                    color: Color.fromARGB(1000, 203, 213, 225),
+                                    color: Styles.lightBlue,
                                     fontFamily: Styles.secondTitlefont,),
                                 prefixIcon: const Icon(Icons.email_outlined,
-                                    color: Color.fromARGB(1000, 203, 213, 225)),
+                                    color: Styles.lightBlue),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(
-                                    color: Color.fromARGB(1000, 203, 213, 225),
+                                    color: Styles.lightBlue,
                                     width: 1.0,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(
-                                    color: Color(0xE83B82F6),
+                                    color: Styles.blue,
                                     width: 1.0,
                                   ),
                                 ),
                                 errorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(
-                                    color: Colors.red,
+                                    color: Styles.red,
                                     width: 1.0,
                                   ),
                                 ),
@@ -139,31 +145,39 @@ class _LoginState extends State<Login> {
                             ),
                             TextFormField(
                               controller: _passwordController,
+                              obscureText: _isObscured,
                               decoration: InputDecoration(
                                 hintText: 'Constraseña',
                                 hintStyle: const TextStyle(
-                                    color: Color.fromARGB(1000, 203, 213, 225),
+                                    color: Styles.lightBlue,
                                     fontFamily: Styles.secondTitlefont,),
+                                suffixIcon: IconButton(onPressed: (){
+                                  setState(() {
+                                    _isObscured = !_isObscured;
+                                  });
+                                }, icon: _isObscured 
+                                    ? const Icon(Icons.visibility_off_outlined ,color:Styles.lightBlue)
+                                    : const Icon(Icons.visibility_outlined,color: Styles.blue)),
                                 prefixIcon: const Icon(Icons.lock_outline,
-                                    color: Color.fromARGB(1000, 203, 213, 225)),
+                                    color: Styles.lightBlue),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(
-                                    color: Color.fromARGB(1000, 203, 213, 225),
+                                    color: Styles.lightBlue,
                                     width: 1.0,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(
-                                    color: Color.fromARGB(1000, 59, 130, 246),
+                                    color: Styles.blue,
                                     width: 1.0,
                                   ),
                                 ),
                                 errorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(
-                                    color: Colors.red,
+                                    color: Styles.red,
                                     width: 1.0,
                                   ),
                                 ),
@@ -186,12 +200,13 @@ class _LoginState extends State<Login> {
 
                               ApiService.login(email, password).then((token) {
                                 if (token.success) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const MainOrders(),
-                                    ),
-                                  );
+                                  print(token.result);
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => const MainOrders(),
+                                  //   ),
+                                  // );
                                 }else{
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
