@@ -1,14 +1,16 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 import 'package:app/models/payment.model.dart';
 import 'package:app/partials/app-bar.partial.dart';
+import 'package:app/services/api.service.dart';
 import 'package:app/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
 class MainPayment extends StatefulWidget {
-  final List<Payment> paymetList;
-  const MainPayment({super.key, required this.paymetList});
+  // final List<Payment> paymetList;
+  final dynamic orderId;
+  const MainPayment({super.key, required this.orderId});
 
   @override
   State<MainPayment> createState() => _MainPaymentState();
@@ -20,7 +22,7 @@ class _MainPaymentState extends State<MainPayment> {
   @override
   void initState() {
     super.initState();
-    loadPayments();
+    loadPayments(widget.orderId);
   }
 
   @override
@@ -194,9 +196,10 @@ class _MainPaymentState extends State<MainPayment> {
 
   
 
-  void loadPayments() {
+  void loadPayments(String orderId) async{
+    List<Payment> payments = await ApiService.getPaymentsByOrderId(orderId);
     List<dynamic> pList = [];
-    for (var p in widget.paymetList) {
+    for (var p in payments) {
       pList.add({
         "paymentId": p.paymentId,
         "orderId": p.orderId,

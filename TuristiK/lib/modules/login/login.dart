@@ -23,6 +23,7 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  // ignore: prefer_typing_uninitialized_variables
   var _isObscured;
   late Token token;
 
@@ -188,17 +189,17 @@ class _LoginState extends State<Login> {
                                     width: 1.0,
                                   ),
                                 ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(
-                                    color: Styles.blue,
-                                    width: 1.0,
-                                  ),
-                                ),
                                 errorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(
                                     color: Styles.red,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                    color: Styles.blue,
                                     width: 1.0,
                                   ),
                                 ),

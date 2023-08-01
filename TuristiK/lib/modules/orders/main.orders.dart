@@ -3,7 +3,7 @@
 import 'package:app/models/customer.model.dart';
 import 'package:app/models/order.model.dart';
 import 'package:app/models/package.model.dart';
-import 'package:app/models/payment.model.dart';
+import 'package:app/modules/orders/frecuent_travelers/main.frecuent_traveler.dart';
 import 'package:app/modules/orders/payments/main.payments.dart';
 import 'package:app/partials/app-bar.partial.dart';
 import 'package:app/services/api.service.dart';
@@ -136,7 +136,7 @@ class _MainOrdersState extends State<MainOrders> {
                                               fontFamily: Styles.subtitleFont,
                                             ),
                                             maxLines:
-                                                2, // Limit the text to two lines
+                                                2,
                                           ),
                                         ),
                                       ],
@@ -145,11 +145,24 @@ class _MainOrdersState extends State<MainOrders> {
                                 },
                               ),
                               const SizedBox(height: 5),
-                              Text(getPackageName(item.packageId!),
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontFamily: Styles.titleFont,
-                                      fontWeight: FontWeight.bold)),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    constraints:const BoxConstraints(maxWidth: 300),
+                                    child: Center(
+                                      child: Text(getPackageName(item.packageId!),
+                                          style: const TextStyle(
+                                              fontSize: 17,
+                                              fontFamily: Styles.titleFont,
+                                              fontWeight: FontWeight.bold,
+                                              overflow: TextOverflow.ellipsis
+                                              ),
+                                              maxLines:2,),
+                                    ),
+                                  ),
+                                ],
+                              ),  
                               const SizedBox(height: 25),
                               Padding(
                                 padding:
@@ -339,16 +352,15 @@ class _MainOrdersState extends State<MainOrders> {
                                             children: [
                                               IconButton(
                                                   onPressed: () async {
-                                                    List<Payment> payments =
-                                                        await getPayments(
-                                                            item.orderId!);
+                                                    // List<Payment> payments =
+                                                    //     await getPayments(
+                                                    //         item.orderId!);
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: (context) =>
                                                             MainPayment(
-                                                                paymetList:
-                                                                    payments),
+                                                                orderId: item.orderId,),
                                                       ),
                                                     );
                                                   },
@@ -377,13 +389,12 @@ class _MainOrdersState extends State<MainOrders> {
                                             children: [
                                               IconButton(
                                                   onPressed: () {
-                                                    // Navigator.push(
-                                                    //     context,
-                                                    //     MaterialPageRoute(
-                                                    //         builder: (context) =>
-                                                    //             MainFrecuentTraveler(
-                                                    //                 orderDetail:
-                                                    //                     item.orderDetail)));
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                MainFrecuentTraveler(
+                                                                   orderId: item.orderId!)));
                                                   },
                                                   icon: const Icon(
                                                     Icons.supervisor_account,
@@ -512,8 +523,8 @@ class _MainOrdersState extends State<MainOrders> {
     }
   }
 
-  Future<List<Payment>> getPayments(String orderId) async {
-    List<Payment> payments = await ApiService.getPaymentsByOrderId(orderId);
-    return payments;
-  }
+  // Future<List<Payment>> getPayments(String orderId) async {
+  //   List<Payment> payments = await ApiService.getPaymentsByOrderId(orderId);
+  //   return payments;
+  // }
 }

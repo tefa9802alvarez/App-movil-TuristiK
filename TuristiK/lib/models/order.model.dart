@@ -19,7 +19,6 @@ class Order{
   });
 
    factory Order.fromJson(Map<String, dynamic> json) {
-    
 
     return Order(
       orderId: json["orderId"],
