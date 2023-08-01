@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:app/models/customer.model.dart';
 import 'package:app/models/order.model.dart';
 import 'package:app/models/package.model.dart';
 import 'package:app/models/payment.model.dart';
@@ -14,8 +15,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
 class MainOrders extends StatefulWidget {
-  //final dynamic token;
-  const MainOrders({super.key});
+  final dynamic userId;
+  const MainOrders({super.key, this.userId});
   @override
   State<MainOrders> createState() => _MainOrdersState();
 }
@@ -27,7 +28,7 @@ class _MainOrdersState extends State<MainOrders> {
   @override
   void initState() {
     super.initState();
-    loadInfo();
+    loadInfo(widget.userId);
   }
 
   @override
@@ -411,9 +412,9 @@ class _MainOrdersState extends State<MainOrders> {
     );
   }
 
-  void loadInfo() async {
-    List<Order> orders = await ApiService.getOrdersByCustomerId(
-        "ae82577b-9b4b-4804-6f8f-08db91cbc206");
+  void loadInfo(String userId) async {
+    Customer? customer = await ApiService.getCustomerByUserId(userId);
+    List<Order> orders = await ApiService.getOrdersByCustomerId(customer!.customerId);
     List<Package> packages = await ApiService.getPackages();
     setState(() {
       orderList = orders;

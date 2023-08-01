@@ -4,7 +4,7 @@ import 'package:app/models/customer.model.dart';
 import 'package:app/models/order.model.dart';
 import 'package:app/models/package.model.dart';
 import 'package:app/models/payment.model.dart';
-import 'package:app/models/toke.model.dart';
+import 'package:app/models/token.model.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -63,6 +63,20 @@ class ApiService {
     return customer;
   }
 
+  static Future<Customer?> getCustomerByUserId(String userId) async{
+    
+    Customer? customer;   
+    var url = Uri.parse("$endPoint/Customer/ByUser/$userId");
+    final response = await http.get(url);
+   
+    if (response.statusCode==200) {
+      final data = jsonDecode(response.body);
+      customer = Customer.fromJson(data);
+    }else{
+      customer = null;
+    }
+    return customer;
+  }
   static Future<List<Payment>> getPaymentsByOrderId(String orderId) async{
     List<Payment> paymentList =[];
     var url = Uri.parse("$endPoint/Payment");

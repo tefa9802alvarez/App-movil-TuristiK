@@ -2,6 +2,7 @@ import 'package:app/modules/login/login.dart';
 import 'package:app/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class AppBarNav extends StatelessWidget {
   final String navtitle;
   final bool backOption ;
@@ -50,7 +51,10 @@ class AppBarNav extends StatelessWidget {
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 20),
-              child: IconButton(onPressed: (){
+              child: IconButton(onPressed: () async{
+                final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+                sharedPreferences.remove('currentToken');
+                // ignore: use_build_context_synchronously
                 Navigator.push(context,MaterialPageRoute(builder: (context)=>const Login()));
               },icon: const Icon(
                 FontAwesomeIcons.rightFromBracket,color: Styles.blue,size: 25,
