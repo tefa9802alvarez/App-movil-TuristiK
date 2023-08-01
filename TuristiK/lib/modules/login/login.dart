@@ -1,12 +1,16 @@
-import 'package:app/models/toke.model.dart';
+import 'dart:async';
+
+import 'package:app/models/token.model.dart';
 import 'package:app/modules/orders/main.orders.dart';
 import 'package:app/services/api.service.dart';
 import 'package:app/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
+String? currentToken;
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -25,6 +29,22 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
+    getValidateData().whenComplete(() async {
+        // Agrega un punto y coma al final
+
+        Timer(const Duration(seconds: 2), () {
+          if (currentToken != null) {
+            Map<String, dynamic> jwtDecodeToken = JwtDecoder.decode(currentToken!);
+            String userId = jwtDecodeToken['id']; // Reemplaza la coma con un punto y coma
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MainOrders(userId: userId),
+              ),
+            );
+          }
+        });
+      });
     _isObscured = true;
   }
   @override
@@ -197,7 +217,6 @@ class _LoginState extends State<Login> {
                             if (_formKey.currentState!.validate()) {
                               String email = _emailController.text;
                               String password = _passwordController.text;
-                              //login(email, password);
 
                               ApiService.login(email, password).then((token) {
                                 if (token.success) {   
@@ -205,10 +224,12 @@ class _LoginState extends State<Login> {
                                   String role = jwtDecodeToken['role'];
 
                                   if (role == "Cliente") {
+                                    saveCredentials(token);
+                                    String userId = jwtDecodeToken['id'];
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const MainOrders(),
+                                        builder: (context) => MainOrders(userId: userId),
                                       ),
                                     );
                                   }else{
@@ -271,6 +292,20 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  saveCredentials(Token token)async{
+    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String result = token.result;
+    sharedPreferences.setString('currentToken', result);
+  }
+
+  Future getValidateData() async{
+    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var getToken = sharedPreferences.getString('currentToken');
+    setState(() {
+      currentToken = getToken;
+    });
   }
 
 }
