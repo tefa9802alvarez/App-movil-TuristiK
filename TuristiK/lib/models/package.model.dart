@@ -4,7 +4,7 @@ class Package{
   final String name;
   final String details;
   final String destination;
-  final String transport;
+  final int transport;
   final String hotel;
   final DateTime arrivalDate;
   final DateTime departureDate;

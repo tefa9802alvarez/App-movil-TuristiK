@@ -23,27 +23,6 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const Login(),
-      
-      // // home: MainFrecuentTraveler(orderDetail: [
-      //     OrderDetail(
-      //       orderDetailId: "6c3ecd65-61b5-4842-2edd-08db87c95e19",
-      //       orderId: "f2e6c8ef-d157-469c-24a2-08db87c95e0e",
-      //       beneficiaryId: "acb85669-6220-431c-2329-08db84838b9b",
-      //       unitPrice: 380000.00
-      //     ),
-      //     OrderDetail(
-      //       orderDetailId: "6c3ecd65-61b5-4842-2edd-08db87c95e19",
-      //       orderId: "f2e6c8ef-d157-469c-24a2-08db87c95e0e",
-      //       beneficiaryId: "acb85669-6220-431c-2329-08db84838b9b",
-      //       unitPrice: 150000.00
-      //     ),
-      //     OrderDetail(
-      //       orderDetailId: "6c3ecd65-61b5-4842-2edd-08db87c95e19",
-      //       orderId: "f2e6c8ef-d157-469c-24a2-08db87c95e0e",
-      //       beneficiaryId: "acb85669-6220-431c-2329-08db84838b9b",
-      //       unitPrice: 2580000.00
-      //     )
-      // ]),
       debugShowCheckedModeBanner: false,
     );
   }
