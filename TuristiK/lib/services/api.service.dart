@@ -83,8 +83,8 @@ class ApiService {
 
   static Future<Token> login(String email, String password) async {
       try {
-
-        var url = Uri.parse("$endPoint/Login/");
+        
+        var url = Uri.parse("$endPoint/Login/");  
         final response = await http.post(
           url,
           headers: {
@@ -95,10 +95,10 @@ class ApiService {
             'password': password,
           }),
         );
+        
         if (response.statusCode == 200) {
-          // La solicitud fue exitosa, puedes procesar la respuesta aquí
           final data = jsonDecode(response.body);
-          return Token.fromJson(data); // Suponiendo que la clase Token tiene un constructor fromJson
+          return Token.fromJson(data); 
         } else {
           throw Exception('Error en la solicitud de inicio de sesión');
         }

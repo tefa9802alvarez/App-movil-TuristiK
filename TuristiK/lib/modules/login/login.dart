@@ -4,6 +4,7 @@ import 'package:app/services/api.service.dart';
 import 'package:app/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 
 class Login extends StatefulWidget {
@@ -199,14 +200,31 @@ class _LoginState extends State<Login> {
                               //login(email, password);
 
                               ApiService.login(email, password).then((token) {
-                                if (token.success) {
-                                  print(token.result);
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) => const MainOrders(),
-                                  //   ),
-                                  // );
+                                if (token.success) {   
+                                  Map<String,dynamic> jwtDecodeToken = JwtDecoder.decode(token.result);
+                                  String role = jwtDecodeToken['role'];
+
+                                  if (role == "Cliente") {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const MainOrders(),
+                                      ),
+                                    );
+                                  }else{
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text("Acceso dengado",style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                          fontFamily: Styles.secondTitlefont
+                                        ),),
+                                        backgroundColor: Styles.red,
+                                      ),
+                                    );
+                                  }
+
+                                  
                                 }else{
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(

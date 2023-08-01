@@ -3,7 +3,6 @@
 import 'package:app/models/order.model.dart';
 import 'package:app/models/package.model.dart';
 import 'package:app/models/payment.model.dart';
-import 'package:app/modules/orders/frecuent_travelers/main.frecuent_traveler.dart';
 import 'package:app/modules/orders/payments/main.payments.dart';
 import 'package:app/partials/app-bar.partial.dart';
 import 'package:app/services/api.service.dart';
@@ -15,6 +14,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
 class MainOrders extends StatefulWidget {
+  //final dynamic token;
   const MainOrders({super.key});
   @override
   State<MainOrders> createState() => _MainOrdersState();
@@ -23,7 +23,7 @@ class MainOrders extends StatefulWidget {
 class _MainOrdersState extends State<MainOrders> {
   static List<Order> orderList = [];
   static List<Package> packageList = [];
-
+  
   @override
   void initState() {
     super.initState();
