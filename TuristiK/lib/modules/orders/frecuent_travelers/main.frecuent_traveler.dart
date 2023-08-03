@@ -31,213 +31,227 @@ class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Styles.lightGrey,
+      backgroundColor: Styles.blue,
       appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(70),
-        child: AppBarNav(navtitle: "Mis Beneficiarios",backOption: true,),
+        preferredSize: Size.fromHeight(170),
+        child: AppBarNav(
+          navtitle: "Mis Beneficiarios",
+          backOption: true,
+          description: "Gran Excursion a Chiquinquira",
+        ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 35),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 210,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color.fromARGB(87, 0, 0, 0),
-                            blurRadius: 15.0,
-                            offset: Offset(
-                              3,
-                              3,
-                            ),
-                          )
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                  "Acompañantes (${frecuentTravelers.length}) ",
-                                  style: const TextStyle(
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontSize: 16,
-                                      fontFamily: Styles.secondTitlefont,
-                                      fontWeight: FontWeight.w400)),
-                            ], 
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ), 
-            const SizedBox(height: 40),
-            Center(
-              child: Column(
-                children: frecuentTravelers.map((c) {
-                  return SizedBox(
-                    height: 250,
-                    width: 370,
-                    child: Stack(
-                      children: [
-                        Center(
-                          child: Container(
-                            height: 200,
-                            width: 370,
-                            decoration: BoxDecoration(
-                              color: Styles.blue,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Color.fromARGB(87, 0, 0, 0),
-                                  blurRadius: 15.0,
-                                  offset: Offset(
-                                    3,
-                                    3,
-                                  ),
-                                )
-                              ],
-                            ),
-                            child: Stack(
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(35.0),
+            topRight: Radius.circular(35.0),
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 35),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 210,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color.fromARGB(87, 0, 0, 0),
+                              blurRadius: 15.0,
+                              offset: Offset(
+                                3,
+                                3,
+                              ),
+                            )
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Positioned(
-                                  left: 0,
-                                  top: 40,
-                                  child: Icon(
-                                    FontAwesomeIcons
-                                        .solidUser,
-                                    size: 165,
-                                    color: Color.fromARGB(30, 255, 255, 255),
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 50,
-                                  right: 35,
-                                  child: SizedBox(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          constraints: const BoxConstraints(maxWidth: 200),
-                                          child: Text(
-                                            "${c['name']} ${c['lastName']}",
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontFamily: Styles.secondTitlefont,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                                overflow: TextOverflow.ellipsis),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Text(
-                                          "Documento: ${c['document']}",
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: Styles.secondTitlefont,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              overflow: TextOverflow.ellipsis),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        FutureBuilder<String>(
-                                          future: calculateDate(c['birthDate']),
-                                          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                            return Text(
-                                              snapshot.data ?? '', 
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontFamily: Styles.secondTitlefont,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                                overflow: TextOverflow.ellipsis
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Container(
-                                          constraints: const BoxConstraints(maxWidth: 200),
-                                          child: Text(
-                                            c['eps'],
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontFamily: Styles.secondTitlefont,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                                overflow: TextOverflow.ellipsis),
-                                          ),
-                                        )
-                                      ],
+                                Text(
+                                    "Acompañantes (${frecuentTravelers.length}) ",
+                                    style: const TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 16,
+                                        fontFamily: Styles.secondTitlefont,
+                                        fontWeight: FontWeight.w400)),
+                              ], 
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ), 
+              const SizedBox(height: 40),
+              Center(
+                child: Column(
+                  children: frecuentTravelers.map((c) {
+                    return SizedBox(
+                      height: 250,
+                      width: 370,
+                      child: Stack(
+                        children: [
+                          Center(
+                            child: Container(
+                              height: 200,
+                              width: 370,
+                              decoration: BoxDecoration(
+                                color: Styles.blue,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color.fromARGB(87, 0, 0, 0),
+                                    blurRadius: 15.0,
+                                    offset: Offset(
+                                      3,
+                                      3,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              child: Stack(
+                                children: [
+                                  const Positioned(
+                                    left: 0,
+                                    top: 40,
+                                    child: Icon(
+                                      FontAwesomeIcons
+                                          .solidUser,
+                                      size: 165,
+                                      color: Color.fromARGB(30, 255, 255, 255),
                                     ),
                                   ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 10,
-                          right: 20,
-                          child: Container(
-                            height: 30,
-                            width: 230,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 7, right: 7),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "Precio Unitario",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontFamily: Styles.secondTitlefont,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    "${c['unitPrice']}",
-                                    style: const TextStyle(
-                                        color: Styles.green,
-                                        fontSize: 14,
-                                        fontFamily: Styles.secondTitlefont,
-                                        fontWeight: FontWeight.bold),
+                                  Positioned(
+                                    top: 50,
+                                    right: 35,
+                                    child: SizedBox(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            constraints: const BoxConstraints(maxWidth: 200),
+                                            child: Text(
+                                              "${c['name']} ${c['lastName']}",
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: Styles.secondTitlefont,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  overflow: TextOverflow.ellipsis),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Text(
+                                            "Documento: ${c['document']}",
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: Styles.secondTitlefont,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          FutureBuilder<String>(
+                                            future: calculateDate(c['birthDate']),
+                                            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                              return Text(
+                                                snapshot.data ?? '', 
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: Styles.secondTitlefont,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  overflow: TextOverflow.ellipsis
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Container(
+                                            constraints: const BoxConstraints(maxWidth: 200),
+                                            child: Text(
+                                              c['eps'],
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: Styles.secondTitlefont,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  overflow: TextOverflow.ellipsis),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   )
                                 ],
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                }).toList(),
+                          Positioned(
+                            top: 10,
+                            right: 20,
+                            child: Container(
+                              height: 30,
+                              width: 230,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 7, right: 7),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "Precio Unitario",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontFamily: Styles.secondTitlefont,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "${c['unitPrice']}",
+                                      style: const TextStyle(
+                                          color: Styles.green,
+                                          fontSize: 14,
+                                          fontFamily: Styles.secondTitlefont,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
               ),
-            ),
-          
-          ],
+            
+            ],
+          ),
         ),
       ),
     );

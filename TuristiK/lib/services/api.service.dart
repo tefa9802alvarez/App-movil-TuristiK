@@ -10,8 +10,8 @@ import 'package:http/http.dart' as http;
 class ApiService {
 
   //static const endPoint = "https://127.0.0.1:7266/api";
-  static const String endPoint = "https://localhost:7266/api";
-
+  //static const String endPoint = "https://localhost:7266/api";
+  static const String endPoint = "https://293b-2800-e2-c00-1bad-60aa-b547-9643-ac3b.ngrok-free.app/api";
   static Future<List<Order>> getOrdersByCustomerId(String customerId) async{
     List<Order> orderList =[];
     var url = Uri.parse("$endPoint/Order");
@@ -117,7 +117,7 @@ class ApiService {
           throw Exception('Error en la solicitud de inicio de sesión');
         }
       } catch (e) {
-        throw Exception('Error en la solicitud de inicio de sesión');
+        throw Exception(e);
       }
   }
   
