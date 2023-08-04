@@ -11,7 +11,8 @@ class ApiService {
 
   //static const endPoint = "https://127.0.0.1:7266/api";
   //static const String endPoint = "https://localhost:7266/api";
-  static const String endPoint = "https://293b-2800-e2-c00-1bad-60aa-b547-9643-ac3b.ngrok-free.app/api";
+  static const String endPoint = "https://b271-2800-e2-c00-1bad-ec24-a4ac-d651-9fb5.ngrok-free.app/api";
+  
   static Future<List<Order>> getOrdersByCustomerId(String customerId) async{
     List<Order> orderList =[];
     var url = Uri.parse("$endPoint/Order");

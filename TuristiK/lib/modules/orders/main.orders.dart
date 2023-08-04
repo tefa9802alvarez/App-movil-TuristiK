@@ -24,7 +24,7 @@ class MainOrders extends StatefulWidget {
 class _MainOrdersState extends State<MainOrders> {
   static List<Order> orderList = [];
   static List<Package> packageList = [];
-  
+
   @override
   void initState() {
     super.initState();
@@ -36,7 +36,7 @@ class _MainOrdersState extends State<MainOrders> {
     return Scaffold(
       backgroundColor: Styles.blue,
       appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(170),
+        preferredSize: Size.fromHeight(150),
         child: AppBarNav(
           navtitle: "Mis Pedidos",
           backOption: false,
@@ -45,14 +45,13 @@ class _MainOrdersState extends State<MainOrders> {
       ),
       body: Container(
         decoration: const BoxDecoration(
-          color: Colors.white,
+          color: Color.fromARGB(232, 248, 250, 253),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(35.0),
             topRight: Radius.circular(35.0),
           ),
         ),
-        child: SingleChildScrollView(
-          child: Center(
+        child: Center(
             child: Builder(
               builder: (context) {
                 final double height = MediaQuery.of(context).size.height;
@@ -61,9 +60,10 @@ class _MainOrdersState extends State<MainOrders> {
                       height: height,
                       viewportFraction: 1.0,
                       enlargeCenterPage: false,
-                      autoPlay: true,
+                      autoPlay: false,
                       autoPlayInterval: const Duration(seconds: 3),
-                      autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                      autoPlayAnimationDuration:
+                          const Duration(milliseconds: 800),
                       aspectRatio: 16 / 9),
                   items: orderList
                       .map(
@@ -71,26 +71,28 @@ class _MainOrdersState extends State<MainOrders> {
                           children: [
                             Positioned(
                               top: 40,
-                              height: 600,
+                              height: 620,
                               width: 330,
-                              left: (MediaQuery.of(context).size.width - 330) / 2,
+                              left:
+                                  (MediaQuery.of(context).size.width - 330) / 2,
                               child: Container(
                                 decoration: BoxDecoration(
                                     boxShadow: const [
                                       BoxShadow(
-                                        color: Color.fromARGB(87, 0, 0, 0),
+                                        color: Color.fromARGB(36, 0, 0, 0),
                                         blurRadius: 15.0,
                                         offset: Offset(
-                                          15,
-                                          15,
+                                          10,
+                                          10,
                                         ),
                                       )
                                     ],
-                                    color: const Color.fromARGB(255, 255, 255, 255),
+                                    color: const Color.fromARGB(
+                                        255, 255, 255, 255),
                                     borderRadius: BorderRadius.circular(15)),
                                 child: Column(children: [
                                   Container(
-                                    height: 180,
+                                    height: 130,
                                     width: 280,
                                     margin: const EdgeInsets.only(top: 30),
                                     clipBehavior: Clip.hardEdge,
@@ -104,79 +106,164 @@ class _MainOrdersState extends State<MainOrders> {
                                     ),
                                   ),
                                   const SizedBox(height: 15),
-                                  FutureBuilder<List<String>>(
-                                    future: formatDateRange(
-                                        getPackagedepartureDate(item.packageId!),
-                                        getPackageArrivalDate(item.packageId!)),
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<List<String>> snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const CircularProgressIndicator();
-                                      } else if (snapshot.hasError) {
-                                        return const Text(
-                                            'Error al obtener las fechas',
-                                            style: TextStyle(
-                                              color: Styles.red,
-                                              fontSize: 14,
-                                              fontFamily: Styles.secondTitlefont,
-                                            ));
-                                      } else {
-                                        String departureDateText =
-                                            snapshot.data?[0] ??
-                                                'Fecha no disponible';
-                                        String arrivalDateText =
-                                            snapshot.data?[1] ??
-                                                'Fecha no disponible';
-                                        return Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              constraints: const BoxConstraints(
-                                                  maxWidth: 280),
-                                              child: Text(
-                                                "Desde $departureDateText Hasta $arrivalDateText",
-                                                style: const TextStyle(
-                                                  color: Styles.blue,
-                                                  fontSize: 14,
-                                                  fontFamily: Styles.subtitleFont,
-                                                ),
-                                                maxLines:
-                                                    2,
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      }
-                                    },
-                                  ),
+                                  // FutureBuilder<List<String>>(
+                                  //   future: formatDateRange(
+                                  //       getPackagedepartureDate(item.packageId!),
+                                  //       getPackageArrivalDate(item.packageId!)),
+                                  //   builder: (BuildContext context,
+                                  //       AsyncSnapshot<List<String>> snapshot) {
+                                  //     if (snapshot.connectionState ==
+                                  //         ConnectionState.waiting) {
+                                  //       return const CircularProgressIndicator();
+                                  //     } else if (snapshot.hasError) {
+                                  //       return const Text(
+                                  //           'Error al obtener las fechas',
+                                  //           style: TextStyle(
+                                  //             color: Styles.red,
+                                  //             fontSize: 14,
+                                  //             fontFamily: Styles.secondTitlefont,
+                                  //           ));
+                                  //     } else {
+                                  //       String departureDateText =
+                                  //           snapshot.data?[0] ??
+                                  //               'Fecha no disponible';
+                                  //       String arrivalDateText =
+                                  //           snapshot.data?[1] ??
+                                  //               'Fecha no disponible';
+                                  //       return Row(
+                                  //         crossAxisAlignment:
+                                  //             CrossAxisAlignment.center,
+                                  //         mainAxisAlignment:
+                                  //             MainAxisAlignment.center,
+                                  //         children: [
+                                  //           Container(
+                                  //             constraints: const BoxConstraints(
+                                  //                 maxWidth: 280),
+                                  //             child: Text(
+                                  //               "Desde $departureDateText Hasta $arrivalDateText",
+                                  //               style: const TextStyle(
+                                  //                 color: Styles.blue,
+                                  //                 fontSize: 14,
+                                  //                 fontFamily: Styles.subtitleFont,
+                                  //               ),
+                                  //               maxLines:
+                                  //                   2,
+                                  //             ),
+                                  //           ),
+                                  //         ],
+                                  //       );
+                                  //     }
+                                  //   },
+                                  // ),
+
                                   const SizedBox(height: 5),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Container(
-                                        constraints:const BoxConstraints(maxWidth: 300),
+                                        constraints:
+                                            const BoxConstraints(maxWidth: 300),
                                         child: Center(
-                                          child: Text(getPackageName(item.packageId!),
-                                              style: const TextStyle(
-                                                  fontSize: 17,
-                                                  fontFamily: Styles.titleFont,
-                                                  fontWeight: FontWeight.bold,
-                                                  overflow: TextOverflow.ellipsis
-                                                  ),),
+                                          child: Text(
+                                            getPackageName(item.packageId!),
+                                            style: const TextStyle(
+                                                fontSize: 17,
+                                                fontFamily: Styles.titleFont,
+                                                fontWeight: FontWeight.bold,
+                                                overflow:
+                                                    TextOverflow.ellipsis),
+                                          ),
                                         ),
                                       ),
                                     ],
-                                  ),  
+                                  ),
                                   const SizedBox(height: 25),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 30),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 30),
                                     child: Column(
                                       children: [
+                                        // FutureBuilder<List<String>>(
+                                        //   future: formatDateRange(
+                                        //       getPackagedepartureDate(
+                                        //           item.packageId!),
+                                        //       getPackageArrivalDate(
+                                        //           item.packageId!)),
+                                        //   builder: (BuildContext context,
+                                        //       AsyncSnapshot<List<String>>
+                                        //           snapshot) {
+                                        //     if (snapshot.connectionState ==
+                                        //         ConnectionState.waiting) {
+                                        //       return const CircularProgressIndicator();
+                                        //     } else if (snapshot.hasError) {
+                                        //       return const Text(
+                                        //           'Error al obtener las fechas',
+                                        //           style: TextStyle(
+                                        //             color: Styles.red,
+                                        //             fontSize: 14,
+                                        //             fontFamily:
+                                        //                 Styles.secondTitlefont,
+                                        //           ));
+                                        //     } else {
+                                        //       String departureDateText =
+                                        //           snapshot.data?[0] ??
+                                        //               'Fecha no disponible';
+                                        //       String arrivalDateText =
+                                        //           snapshot.data?[1] ??
+                                        //               'Fecha no disponible';
+                                        //       return Padding(
+                                        //         padding: const EdgeInsets.only(
+                                        //             bottom: 10, top: 5),
+                                        //         child: Row(
+                                        //           mainAxisAlignment:
+                                        //               MainAxisAlignment
+                                        //                   .spaceBetween,
+                                        //           crossAxisAlignment:
+                                        //               CrossAxisAlignment.center,
+                                        //           children: [
+                                        //             Column(
+                                        //               crossAxisAlignment:
+                                        //                   CrossAxisAlignment
+                                        //                       .start,
+                                        //               mainAxisAlignment:
+                                        //                   MainAxisAlignment
+                                        //                       .spaceAround,
+                                        //               children: [
+                                        //                 const Text(
+                                        //                     "Fecha de salida y llegada",
+                                        //                     style: TextStyle(
+                                        //                       fontSize: 15,
+                                        //                       fontFamily: Styles
+                                        //                           .secondTitlefont,
+                                        //                     )),
+                                        //                 Container(
+                                        //                   constraints:
+                                        //                       const BoxConstraints(
+                                        //                           maxWidth:
+                                        //                               200),
+                                        //                   child: Text("Desde $departureDateText Hasta $arrivalDateText",
+                                        //                     style: const TextStyle(
+                                        //                         fontSize: 15,
+                                        //                         fontFamily: Styles
+                                        //                             .textFont,
+                                        //                         overflow:
+                                        //                             TextOverflow
+                                        //                                 .ellipsis),
+                                        //                     maxLines: 2,
+                                        //                   ),
+                                        //                 )
+                                        //               ],
+                                        //             ),
+                                        //             const Icon(
+                                        //                 Icons.location_on,
+                                        //                 color: Styles.blue,
+                                        //                 size: 30)
+                                        //           ],
+                                        //         ),
+                                        //       );
+                                        //     }
+                                        //   },
+                                        // ),
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               bottom: 10, top: 5),
@@ -190,13 +277,213 @@ class _MainOrdersState extends State<MainOrders> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.spaceAround,
+                                                    MainAxisAlignment
+                                                        .spaceAround,
                                                 children: [
-                                                  const Text("Salida",
+                                                  const Text("Fecha partida",
                                                       style: TextStyle(
                                                         fontSize: 15,
-                                                        fontFamily:
-                                                            Styles.secondTitlefont,
+                                                        fontFamily: Styles
+                                                            .secondTitlefont,
+                                                      )),
+                                                  FutureBuilder<List<String>>(
+                                                    future: formatDateRange(
+                                                        getPackagedepartureDate(
+                                                            item.packageId!),
+                                                        getPackageArrivalDate(
+                                                            item.packageId!)),
+                                                    builder: (BuildContext
+                                                            context,
+                                                        AsyncSnapshot<
+                                                                List<String>>
+                                                            snapshot) {
+                                                      if (snapshot
+                                                              .connectionState ==
+                                                          ConnectionState
+                                                              .waiting) {
+                                                        return const CircularProgressIndicator();
+                                                      } else if (snapshot
+                                                          .hasError) {
+                                                        return const Text(
+                                                            'Error al obtener las fechas',
+                                                            style: TextStyle(
+                                                              color: Styles.red,
+                                                              fontSize: 14,
+                                                              fontFamily: Styles
+                                                                  .secondTitlefont,
+                                                            ));
+                                                      } else {
+                                                        String
+                                                            departureDateText =
+                                                            snapshot.data?[0] ??
+                                                                'No disponible';
+                                                        return Container(
+                                                          constraints:
+                                                              const BoxConstraints(
+                                                                  maxWidth:
+                                                                      200),
+                                                          child: Text(
+                                                            departureDateText,
+                                                            style: const TextStyle(
+                                                                fontSize: 15,
+                                                                fontFamily: Styles
+                                                                    .textFont,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis),
+                                                            maxLines: 2,
+                                                          ),
+                                                        );
+                                                      }
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  const Text("Fecha Llegada",
+                                                      style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontFamily: Styles
+                                                            .secondTitlefont,
+                                                      )),
+                                                  FutureBuilder<List<String>>(
+                                                    future: formatDateRange(
+                                                        getPackagedepartureDate(
+                                                            item.packageId!),
+                                                        getPackageArrivalDate(
+                                                            item.packageId!)),
+                                                    builder: (BuildContext
+                                                            context,
+                                                        AsyncSnapshot<
+                                                                List<String>>
+                                                            snapshot) {
+                                                      if (snapshot
+                                                              .connectionState ==
+                                                          ConnectionState
+                                                              .waiting) {
+                                                        return const CircularProgressIndicator();
+                                                      } else if (snapshot
+                                                          .hasError) {
+                                                        return const Text(
+                                                            'Error al obtener las fechas',
+                                                            style: TextStyle(
+                                                              color: Styles.red,
+                                                              fontSize: 14,
+                                                              fontFamily: Styles
+                                                                  .secondTitlefont,
+                                                            ));
+                                                      } else {
+                                                        String arrivalDateText =
+                                                            snapshot.data?[1] ??
+                                                                'No disponible';
+                                                        return Container(
+                                                          constraints:
+                                                              const BoxConstraints(
+                                                                  maxWidth:
+                                                                      200),
+                                                          child: Text(
+                                                            arrivalDateText,
+                                                            style: const TextStyle(
+                                                                fontSize: 15,
+                                                                fontFamily: Styles
+                                                                    .textFont,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis),
+                                                            maxLines: 2,
+                                                          ),
+                                                        );
+                                                      }
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                              // const Icon(Icons.location_on,
+                                              //     color: Styles.blue, size: 30)
+                                            ],
+                                          ),
+                                        ),
+                                        const Divider(
+                                          color: Color.fromRGBO(
+                                              231, 231, 231, 0.91),
+                                          thickness: 0.8,
+                                        ),
+                                        // Padding(
+                                        //   padding: const EdgeInsets.only(
+                                        //       bottom: 10, top: 5),
+                                        //   child: Row(
+                                        //     mainAxisAlignment:
+                                        //         MainAxisAlignment.spaceBetween,
+                                        //     crossAxisAlignment:
+                                        //         CrossAxisAlignment.center,
+                                        //     children: [
+                                        //       Column(
+                                        //         crossAxisAlignment:
+                                        //             CrossAxisAlignment.start,
+                                        //         mainAxisAlignment:
+                                        //             MainAxisAlignment
+                                        //                 .spaceAround,
+                                        //         children: [
+                                        //           const Text("Fecha de llegada",
+                                        //               style: TextStyle(
+                                        //                 fontSize: 15,
+                                        //                 fontFamily: Styles
+                                        //                     .secondTitlefont,
+                                        //               )),
+                                        //           Container(
+                                        //             constraints:
+                                        //                 const BoxConstraints(
+                                        //                     maxWidth: 200),
+                                        //             child: Text("20 agos 2023",
+                                        //               style: const TextStyle(
+                                        //                   fontSize: 15,
+                                        //                   fontFamily:
+                                        //                       Styles.textFont,
+                                        //                   overflow: TextOverflow
+                                        //                       .ellipsis),
+                                        //               maxLines: 2,
+                                        //             ),
+                                        //           )
+                                        //         ],
+                                        //       ),
+                                        //       const Icon(Icons.location_on,
+                                        //           color: Styles.blue, size: 30)
+                                        //     ],
+                                        //   ),
+                                        // ),
+                                        // const Divider(
+                                        //   color: Color.fromRGBO(
+                                        //       231, 231, 231, 0.91),
+                                        //   thickness: 0.8,
+                                        // ),
+
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 10, top: 5),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  const Text("Lugar de salida",
+                                                      style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontFamily: Styles
+                                                            .secondTitlefont,
                                                       )),
                                                   Container(
                                                     constraints:
@@ -221,11 +508,13 @@ class _MainOrdersState extends State<MainOrders> {
                                             ],
                                           ),
                                         ),
+
                                         const Divider(
-                                          color:
-                                              Color.fromRGBO(231, 231, 231, 0.91),
+                                          color: Color.fromRGBO(
+                                              231, 231, 231, 0.91),
                                           thickness: 0.8,
                                         ),
+
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               bottom: 10, top: 5),
@@ -242,25 +531,26 @@ class _MainOrdersState extends State<MainOrders> {
                                                   const Text("Tranporte",
                                                       style: TextStyle(
                                                         fontSize: 15,
-                                                        fontFamily:
-                                                            Styles.secondTitlefont,
+                                                        fontFamily: Styles
+                                                            .secondTitlefont,
                                                       )),
                                                   Text(
-                                                    getPackageTranport(
-                                                                item.packageId!) ==
+                                                    getPackageTranport(item
+                                                                .packageId!) ==
                                                             2
                                                         ? "Terrestre"
                                                         : "Aereo",
                                                     style: const TextStyle(
                                                       fontSize: 15,
-                                                      fontFamily: Styles.textFont,
+                                                      fontFamily:
+                                                          Styles.textFont,
                                                     ),
                                                   )
                                                 ],
                                               ),
                                               Icon(
-                                                  getPackageTranport(
-                                                              item.packageId!) ==
+                                                  getPackageTranport(item
+                                                              .packageId!) ==
                                                           2
                                                       ? Icons.directions_bus
                                                       : Icons
@@ -271,8 +561,8 @@ class _MainOrdersState extends State<MainOrders> {
                                           ),
                                         ),
                                         const Divider(
-                                          color:
-                                              Color.fromRGBO(231, 231, 231, 0.91),
+                                          color: Color.fromRGBO(
+                                              231, 231, 231, 0.91),
                                           thickness: 0.8,
                                         ),
                                         Padding(
@@ -288,41 +578,44 @@ class _MainOrdersState extends State<MainOrders> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  const Text("Hotel",
+                                                  const Text("Hospedaje",
                                                       style: TextStyle(
                                                         fontSize: 15,
-                                                        fontFamily:
-                                                            Styles.secondTitlefont,
+                                                        fontFamily: Styles
+                                                            .secondTitlefont,
                                                       )),
                                                   Text(
                                                     getPackageHotel(
                                                         item.packageId!),
                                                     style: const TextStyle(
                                                       fontSize: 15,
-                                                      fontFamily: Styles.textFont,
+                                                      fontFamily:
+                                                          Styles.textFont,
                                                     ),
                                                   )
                                                 ],
                                               ),
                                               const Icon(
-                                                  FontAwesomeIcons.solidBuilding,
+                                                  FontAwesomeIcons
+                                                      .solidBuilding,
                                                   color: Styles.blue,
                                                   size: 30)
                                             ],
                                           ),
                                         ),
                                         const Divider(
-                                          color:
-                                              Color.fromRGBO(231, 231, 231, 0.91),
+                                          color: Color.fromRGBO(
+                                              231, 231, 231, 0.91),
                                           thickness: 0.8,
                                         ),
                                       ],
                                     ),
                                   ),
+
                                   const SizedBox(height: 20),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 20),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -331,7 +624,9 @@ class _MainOrdersState extends State<MainOrders> {
                                           children: [
                                             const Icon(Icons.attach_money_sharp,
                                                 color: Colors.green, size: 22),
-                                            Text(getPackagePrice(item.packageId!),
+                                            Text(
+                                                getPackagePrice(
+                                                    item.packageId!),
                                                 style: const TextStyle(
                                                   color: Colors.green,
                                                   fontSize: 22,
@@ -360,20 +655,21 @@ class _MainOrdersState extends State<MainOrders> {
                                                 children: [
                                                   IconButton(
                                                       onPressed: () async {
-                                                        // List<Payment> payments =
-                                                        //     await getPayments(
-                                                        //         item.orderId!);
                                                         Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                MainPayment(
-                                                                    orderId: item.orderId,),
+                                                            builder:
+                                                                (context) =>
+                                                                    MainPayment(
+                                                              orderId:
+                                                                  item.orderId,
+                                                            ),
                                                           ),
                                                         );
                                                       },
                                                       icon: const Icon(
-                                                        Icons.money,
+                                                        FontAwesomeIcons
+                                                            .moneyCheckDollar,
                                                         color: Colors.white,
                                                         size: 25,
                                                       )),
@@ -402,10 +698,12 @@ class _MainOrdersState extends State<MainOrders> {
                                                             MaterialPageRoute(
                                                                 builder: (context) =>
                                                                     MainFrecuentTraveler(
-                                                                       orderId: item.orderId!)));
+                                                                        orderId:
+                                                                            item.orderId!)));
                                                       },
                                                       icon: const Icon(
-                                                        Icons.supervisor_account,
+                                                        Icons
+                                                            .supervisor_account,
                                                         color: Colors.white,
                                                         size: 25,
                                                       )),
@@ -429,13 +727,13 @@ class _MainOrdersState extends State<MainOrders> {
             ),
           ),
         ),
-      ),
     );
   }
 
   void loadInfo(String userId) async {
     Customer? customer = await ApiService.getCustomerByUserId(userId);
-    List<Order> orders = await ApiService.getOrdersByCustomerId(customer!.customerId);
+    List<Order> orders =
+        await ApiService.getOrdersByCustomerId(customer!.customerId);
     List<Package> packages = await ApiService.getPackages();
     setState(() {
       orderList = orders;
@@ -521,9 +819,9 @@ class _MainOrdersState extends State<MainOrders> {
     try {
       await initializeDateFormatting('es_ES', null);
       String formattedDepartureDate =
-          DateFormat('dd MMM y', 'es_ES').format(departureDate);
+          DateFormat('dd/MMM/y', 'es_ES').format(departureDate);
       String formattedArrivalDate =
-          DateFormat('dd MMM y', 'es_ES').format(arrivalDate);
+          DateFormat('dd/MMM/y', 'es_ES').format(arrivalDate);
       return [
         formattedDepartureDate.toString(),
         formattedArrivalDate.toString()
@@ -532,9 +830,4 @@ class _MainOrdersState extends State<MainOrders> {
       return ['Fecha no disponible', 'Fecha no disponible'];
     }
   }
-
-  // Future<List<Payment>> getPayments(String orderId) async {
-  //   List<Payment> payments = await ApiService.getPaymentsByOrderId(orderId);
-  //   return payments;
-  // }
 }
