@@ -11,6 +11,7 @@ class Styles{
 
   //<------------------COLORS---------------------->
   static const Color blue = Color.fromARGB(1000, 59, 130, 246);
+  static const Color superlightBlue = Color.fromARGB(1000, 245,249,255);
   static const Color lightBlue = Color.fromARGB(1000, 203, 213, 225);
 
   static const Color green = Colors.green;
