@@ -23,12 +23,6 @@ class AppBarNav extends StatelessWidget {
       ),
       child: AppBar(
         backgroundColor: const Color.fromARGB(0, 59, 131, 246),
-        // leading: backOption == false
-        //     ? null
-        //     : IconButton(
-        //         icon: const Icon(Icons.arrow_back_ios_new_rounded,
-        //             color: Colors.white),
-        //         onPressed: () => Navigator.of(context).pop()),
         title: Padding(
           padding: const EdgeInsets.only(left: 5),
           child: Row(
