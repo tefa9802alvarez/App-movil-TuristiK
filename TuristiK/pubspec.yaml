@@ -62,11 +62,11 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
 
-flutter_icons:
-  android: 'launcher_icon'
-  ios: false
-  image_path: 'assets/icons/logo_bluebg_version.png'
-  adaptive_icon_background: 'assets/icons/logo_bluebg_version.png'
+flutter_launcher_icons:
+  android: true
+  image_path_android: "assets/icons/logo_bluebg_version.png"
+  adaptive_icon_background: "assets/icons/bg.png"
+  adaptive_icon_foreground: "assets/icons/logo_white_version.png"
 
 
 # For information on the generic Dart part of this file, see the
