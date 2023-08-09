@@ -492,15 +492,6 @@ class _MainOrdersState extends State<MainOrders> {
     }
   }
 
-  static String getPackageDetails(String packageId) {
-    try {
-      Package package = packageList.firstWhere((p) => p.packageId == packageId);
-      return package.details;
-    } catch (e) {
-      throw Exception("Información no disponible");
-    }
-  }
-
   Future<String> formatDate(DateTime date) async {
     try {
       await initializeDateFormatting('es_ES', null);

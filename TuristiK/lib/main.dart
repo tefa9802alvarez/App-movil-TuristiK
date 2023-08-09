@@ -1,12 +1,18 @@
 import 'dart:io';
+import 'package:app/models/environment.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'modules/login/login.dart';
 
-void main() {
-  if (!kReleaseMode) {
+Future<void> main() async {
+  
+  await dotenv.load(fileName: Environment.fileName);
+
+  if (!kReleaseMode) {  
     HttpOverrides.global = MyHttpOverrides();
   }
+
   runApp(const MyApp());
 }
 
