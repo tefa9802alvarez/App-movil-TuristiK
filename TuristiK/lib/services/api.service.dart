@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 import 'package:app/models/customer.model.dart';
+import 'package:app/models/environment.dart';
 import 'package:app/models/order.model.dart';
 import 'package:app/models/package.model.dart';
 import 'package:app/models/payment.model.dart';
@@ -9,9 +10,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
 
-  //static const endPoint = "https://127.0.0.1:7266/api";
-  //static const String endPoint = "https://localhost:7266/api";
-  static const String endPoint = "https://9ccb-2800-e2-c00-1bad-ec24-a4ac-d651-9fb5.ngrok-free.app/api";
+  static String? endPoint = Environment.apiUrl;
   
   static Future<List<Order>> getOrdersByCustomerId(String customerId) async{
     List<Order> orderList =[];
