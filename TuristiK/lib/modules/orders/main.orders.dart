@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:app/models/customer.model.dart';
 import 'package:app/models/order.model.dart';
 import 'package:app/models/package.model.dart';
@@ -98,9 +96,9 @@ class _MainOrdersState extends State<MainOrders> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                   ),
-                                  child: Image.network(
-                                    // item.package.image,
-                                    "https://images.unsplash.com/photo-1690184432588-81068877d852?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60",
+                                  child: FadeInImage(
+                                    placeholder: const AssetImage('assets/images/loading.gif'),
+                                    image: NetworkImage(getPackageImages(item.packageId!)),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -474,6 +472,16 @@ class _MainOrdersState extends State<MainOrders> {
     }
   }
 
+  static String getPackageImages(String packageId) {
+    try {
+      Package package = packageList.firstWhere((p) => p.packageId == packageId);
+      List<String> photos = package.photos.split(",").map((photo) => photo.trim()).toList();
+      return photos.first;
+    } catch (e) {
+      throw Exception("Información no disponible");
+    }
+  }
+
   static String getPackagePrice(String packageId) {
     try {
       Package package = packageList.firstWhere((p) => p.packageId == packageId);
@@ -524,7 +532,6 @@ class _MainOrdersState extends State<MainOrders> {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          height: 1000,
           decoration: const BoxDecoration(
             color: Styles.superlightBlue,
             borderRadius: BorderRadius.only(
@@ -532,267 +539,277 @@ class _MainOrdersState extends State<MainOrders> {
               topRight: Radius.circular(35.0),
             ),
           ),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-              child: Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 35),
-                    height: 4,
-                    width: 100,
-                    decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 187, 187, 187),
-                        borderRadius: BorderRadius.circular(8)),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 370,
-                          height: 100,
-                          decoration: BoxDecoration(
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Color.fromARGB(36, 0, 0, 0),
-                                  blurRadius: 15.0,
-                                  offset: Offset(
-                                    10,
-                                    10,
+          child: SingleChildScrollView(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 35),
+                      height: 4,
+                      width: 100,
+                      decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 187, 187, 187),
+                          borderRadius: BorderRadius.circular(8)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 375,
+                            height: 100,
+                            decoration: BoxDecoration(
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color.fromARGB(36, 0, 0, 0),
+                                    blurRadius: 15.0,
+                                    offset: Offset(
+                                      10,
+                                      10,
+                                    ),
+                                  )
+                                ],
+                                color: Styles.blue,
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 12),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 120,
+                                    width: 120,
+                                    clipBehavior: Clip.hardEdge,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Image.network(
+                                      // item.package.image,
+                                      getPackageImages(packageId),
+                                      //"https://images.unsplash.com/photo-1690184432588-81068877d852?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60",
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
-                                )
-                              ],
-                              color: Styles.blue,
-                              borderRadius: BorderRadius.circular(15)),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 12),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 120,
-                                  width: 120,
-                                  clipBehavior: Clip.hardEdge,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
+                                  Container(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    constraints:
+                                        const BoxConstraints(maxWidth: 170),
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            "Destino",
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                color: Colors.white,
+                                                fontFamily:
+                                                    Styles.secondTitlefont,
+                                                overflow: TextOverflow.ellipsis),
+                                            maxLines: 2,
+                                          ),
+                                          Text(
+                                            getPackageDestination(packageId),
+                                            style: const TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.white,
+                                                fontFamily: Styles.textFont,
+                                                overflow: TextOverflow.ellipsis),
+                                            maxLines: 2,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                  child: Image.network(
-                                    // item.package.image,
-                                    "https://images.unsplash.com/photo-1690184432588-81068877d852?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60",
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Container(
-                                  constraints:
-                                      const BoxConstraints(maxWidth: 170),
-                                  child: Center(
-                                    child: Column(
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(bottom: 10, top: 5),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        const Text("Lugar de salida",
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: Styles.secondTitlefont,
+                                            )),
+                                        Container(
+                                          constraints:
+                                              const BoxConstraints(maxWidth: 280),
+                                          child: Text(
+                                            getPackageDeparturePoint(packageId),
+                                            style: const TextStyle(
+                                                fontSize: 15,
+                                                fontFamily: Styles.textFont,
+                                                overflow: TextOverflow.ellipsis),
+                                            maxLines: 2,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    const Icon(Icons.location_on,
+                                        color: Styles.blue, size: 30)
+                                  ],
+                                ),
+                              ),
+                              const Divider(
+                                color: Color.fromRGBO(231, 231, 231, 0.91),
+                                thickness: 0.8,
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(bottom: 10, top: 5),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Text(
-                                          "Destino",
-                                          style: TextStyle(
-                                              fontSize: 17,
-                                              color: Colors.white,
-                                              fontFamily:
-                                                  Styles.secondTitlefont,
-                                              overflow: TextOverflow.ellipsis),
-                                          maxLines: 2,
-                                        ),
-                                        Text(
-                                          getPackageDestination(packageId),
-                                          style: const TextStyle(
-                                              fontSize: 17,
-                                              color: Colors.white,
-                                              fontFamily: Styles.textFont,
-                                              overflow: TextOverflow.ellipsis),
-                                          maxLines: 2,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        Column(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 10, top: 5),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      const Text("Lugar de salida",
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontFamily: Styles.secondTitlefont,
-                                          )),
-                                      Container(
-                                        constraints:
-                                            const BoxConstraints(maxWidth: 200),
-                                        child: Text(
-                                          getPackageDeparturePoint(packageId),
-                                          style: const TextStyle(
+                                        const Text("Transporte",
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: Styles.secondTitlefont,
+                                            )),
+                                        Container(
+                                          constraints:
+                                              const BoxConstraints(maxWidth: 280),
+                                          child: Text(
+                                            getPackageTranport(packageId) == 2
+                                                ? "Terrestre"
+                                                : "Aereo",
+                                            style: const TextStyle(
                                               fontSize: 15,
                                               fontFamily: Styles.textFont,
-                                              overflow: TextOverflow.ellipsis),
-                                          maxLines: 2,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  const Icon(Icons.location_on,
-                                      color: Styles.blue, size: 30)
-                                ],
-                              ),
-                            ),
-                            const Divider(
-                              color: Color.fromRGBO(231, 231, 231, 0.91),
-                              thickness: 0.8,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 10, top: 5),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text("Tranporte",
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontFamily: Styles.secondTitlefont,
-                                          )),
-                                      Text(
+                                              overflow: TextOverflow.ellipsis
+                                            ),
+                                            maxLines: 2,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Icon(
                                         getPackageTranport(packageId) == 2
-                                            ? "Terrestre"
-                                            : "Aereo",
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          fontFamily: Styles.textFont,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Icon(
-                                      getPackageTranport(packageId) == 2
-                                          ? Icons.directions_bus
-                                          : Icons.airplanemode_on_rounded,
-                                      color: Styles.blue,
-                                      size: 30)
-                                ],
+                                            ? Icons.directions_bus
+                                            : Icons.airplanemode_on_rounded,
+                                        color: Styles.blue,
+                                        size: 30)
+                                  ],
+                                ),
                               ),
-                            ),
-                            const Divider(
-                              color: Color.fromRGBO(231, 231, 231, 0.91),
-                              thickness: 0.8,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 5, top: 5),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text("Hospedaje",
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontFamily: Styles.secondTitlefont,
-                                          )),
-                                      Text(
-                                        getPackageHotel(packageId),
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          fontFamily: Styles.textFont,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  const Icon(FontAwesomeIcons.solidBuilding,
-                                      color: Styles.blue, size: 30)
-                                ],
+                              const Divider(
+                                color: Color.fromRGBO(231, 231, 231, 0.91),
+                                thickness: 0.8,
                               ),
-                            ),
-                            const Divider(
-                              color: Color.fromRGBO(231, 231, 231, 0.91),
-                              thickness: 0.8,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10, top: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text("Precio Unitario",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontFamily: Styles.secondTitlefont,
-                                      )),
-                                ],
-                              ),
-                              Container(
-                                constraints:
-                                    const BoxConstraints(maxWidth: 200),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 5, top: 5),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    const Icon(Icons.attach_money_sharp,
-                                        color: Colors.green, size: 22),
-                                    Text(getPackagePrice(packageId),
-                                        style: const TextStyle(
-                                          color: Colors.green,
-                                          fontSize: 22,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text("Hospedaje",
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: Styles.secondTitlefont,
+                                            )),
+                                        Text(
+                                          getPackageHotel(packageId),
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                            fontFamily: Styles.textFont,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    const Icon(FontAwesomeIcons.solidBuilding,
+                                        color: Styles.blue, size: 30)
+                                  ],
+                                ),
+                              ),
+                              const Divider(
+                                color: Color.fromRGBO(231, 231, 231, 0.91),
+                                thickness: 0.8,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10, top: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text("Precio Unitario",
+                                        style: TextStyle(
+                                          fontSize: 15,
                                           fontFamily: Styles.secondTitlefont,
                                         )),
                                   ],
                                 ),
-                              )
-                            ],
+                                Container(
+                                  constraints:
+                                      const BoxConstraints(maxWidth: 200),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      const Icon(Icons.attach_money_sharp,
+                                          color: Colors.green, size: 22),
+                                      Text(getPackagePrice(packageId),
+                                          style: const TextStyle(
+                                            color: Colors.green,
+                                            fontSize: 22,
+                                            fontFamily: Styles.secondTitlefont,
+                                          )),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

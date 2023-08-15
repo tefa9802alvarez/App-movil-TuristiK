@@ -15,10 +15,10 @@ class Package{
   final bool type;
   final bool status;
   final String image = "https://images.unsplash.com/photo-1690184432588-81068877d852?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60";
-  // final String image;
+  final String photos;
 
   Package({required this.packageId, required this.name, required this.details,required this.destination, required this.transport, required this.hotel, required this.arrivalDate, required this.departureDate, required this.departurePoint, required this.totalQuotas, required this.availableQuotas, required this.price, required this.type, required this.status,
-  /*required this.image*/});
+  required this.photos});
 
   factory Package.fromJson(Map<String, dynamic> json) {
     return Package(
@@ -36,7 +36,7 @@ class Package{
       price: json["price"],
       type: json["type"],
       status: json["status"],
-      // image: json["image"],
+      photos: json["photos"],
     );
   }
 

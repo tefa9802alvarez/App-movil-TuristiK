@@ -85,6 +85,7 @@ flutter:
     - .env.development
     - .env.production
     - assets/images/login_image.svg
+    - assets/images/loading.gif
     - assets/icons/logo_bluebg_version.png
     - assets/icons/logo_blue_version.png
     - assets/icons/logo_white_version.png
