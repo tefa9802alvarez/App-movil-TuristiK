@@ -128,6 +128,7 @@ class _LoginState extends State<Login> {
                       Column(
                         children: [
                           TextFormField(
+                            keyboardType: TextInputType.emailAddress,
                             controller: _emailController,
                             decoration: InputDecoration(
                               hintText: 'Email',
@@ -152,6 +153,18 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
                               errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: const BorderSide(
+                                  color: Styles.red,
+                                  width: 1.0,
+                                ),
+                              ),
+                              errorStyle: const TextStyle(
+                                color: Styles.red,
+                                fontSize: 13,
+                                fontFamily: Styles.subtitleFont,
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                                 borderSide: const BorderSide(
                                   color: Styles.red,
@@ -214,6 +227,18 @@ class _LoginState extends State<Login> {
                                 borderRadius: BorderRadius.circular(10.0),
                                 borderSide: const BorderSide(
                                   color: Styles.blue,
+                                  width: 1.0,
+                                ),
+                              ),
+                              errorStyle: const TextStyle(
+                                color: Styles.red,
+                                fontSize: 13,
+                                fontFamily: Styles.subtitleFont,
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: const BorderSide(
+                                  color: Styles.red,
                                   width: 1.0,
                                 ),
                               ),
