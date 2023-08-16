@@ -61,6 +61,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  json_serializable: ^6.7.1
 
 flutter_launcher_icons:
   android: true
@@ -85,7 +86,9 @@ flutter:
     - .env.development
     - .env.production
     - assets/images/login_image.svg
+    - assets/images/world-map.jpg
     - assets/images/loading.gif
+    - assets/images/loading-2.gif
     - assets/icons/logo_bluebg_version.png
     - assets/icons/logo_blue_version.png
     - assets/icons/logo_white_version.png

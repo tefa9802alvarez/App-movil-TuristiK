@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:app/models/package.model.dart';
 import 'package:app/models/token.model.dart';
 import 'package:app/modules/orders/main.orders.dart';
 import 'package:app/services/api.service.dart';
@@ -32,12 +34,12 @@ class _LoginState extends State<Login> {
     getValidateData().whenComplete(() async {
       // Agrega un punto y coma al final
 
-      Timer(const Duration(seconds: 2), () {
+      Timer(const Duration(seconds: 1), () {
         if (currentToken != null) {
           Map<String, dynamic> jwtDecodeToken =
               JwtDecoder.decode(currentToken!);
           String userId =
-              jwtDecodeToken['id']; // Reemplaza la coma con un punto y coma
+              jwtDecodeToken['id'];
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -54,24 +56,6 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // appBar: PreferredSize(
-      //   preferredSize: const Size.fromHeight(130),
-      //   child: AppBar(
-      //     backgroundColor: Colors.white,
-      //     flexibleSpace: ClipPath(
-      //       clipper: WaveClipper(),
-      //       child: Container(
-      //         decoration: const BoxDecoration(
-      //           gradient: LinearGradient(
-      //             begin: Alignment.topLeft,
-      //             end: Alignment.bottomRight,
-      //             colors: [Styles.blue, Styles.blue],
-      //           ),
-      //         ),
-      //       ),
-      //     ),
-      //   ),
-      // ),
       body: Center(
           child: SingleChildScrollView(
             child: Container(
@@ -266,6 +250,7 @@ class _LoginState extends State<Login> {
           
                                 if (role == "Cliente") {
                                   saveCredentials(token);
+                                  savePackageList();
                                   String userId = jwtDecodeToken['id'];
                                   Navigator.push(
                                     context,
@@ -344,6 +329,12 @@ class _LoginState extends State<Login> {
     sharedPreferences.setString('currentToken', result);
   }
 
+  savePackageList() async{
+    List<Package> packages = await ApiService.getPackages();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('packages', jsonEncode(packages));
+  }
+
   Future getValidateData() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
@@ -354,31 +345,4 @@ class _LoginState extends State<Login> {
   }
 }
 
-class WaveClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    path.lineTo(0, size.height * 0.75);
 
-    var firstControlPoint = Offset(size.width * 0.25, size.height);
-    var firstEndPoint = Offset(size.width * 0.5, size.height * 0.75);
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
-        firstEndPoint.dx, firstEndPoint.dy);
-
-    var secondControlPoint = Offset(size.width * 0.75, size.height * 0.5);
-    var secondEndPoint = Offset(size.width, size.height * 0.75);
-    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
-        secondEndPoint.dx, secondEndPoint.dy);
-
-    path.lineTo(size.width, size.height * 0.75);
-    path.lineTo(size.width, 0);
-
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return false;
-  }
-}

@@ -40,4 +40,32 @@ class Package{
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      "packageId": packageId,
+      "name": name,
+      "details": details,
+      "destination": destination,
+      "transport": transport,
+      "hotel": hotel,
+      "arrivalDate": arrivalDate.toIso8601String(),
+      "departureDate": departureDate.toIso8601String(),
+      "departurePoint": departurePoint,
+      "totalQuotas": totalQuotas,
+      "availableQuotas": availableQuotas,
+      "price": price,
+      "type": type,
+      "status": status,
+      "photos": photos,
+    };
+  }
+
+  // ... otros métodos y constructores de la clase ...
 }
+
+
+
+
+  
+  
+

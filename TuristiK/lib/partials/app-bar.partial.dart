@@ -1,10 +1,13 @@
+import 'package:app/models/customer.model.dart';
 import 'package:app/modules/login/login.dart';
+import 'package:app/services/api.service.dart';
 import 'package:app/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AppBarNav extends StatelessWidget {
+class AppBarNav extends StatefulWidget{
   final String navtitle;
   final bool backOption;
   final String? description;
@@ -13,6 +16,21 @@ class AppBarNav extends StatelessWidget {
       required this.navtitle,
       required this.backOption,
       this.description});
+
+  @override
+  State<AppBarNav> createState() => _AppBarNavState();
+
+}
+
+class _AppBarNavState extends State<AppBarNav> {
+
+  
+  String customerName = '';
+  @override
+  void initState() {
+    super.initState();
+    setUserCustomerName();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +45,7 @@ class AppBarNav extends StatelessWidget {
           padding: const EdgeInsets.only(left: 5),
           child: Row(
             children: [
-              if (backOption)
+              if (widget.backOption)
                 IconButton(
                     icon: const Icon(Icons.arrow_back_ios_new_rounded,
                         color: Colors.white),
@@ -35,14 +53,13 @@ class AppBarNav extends StatelessWidget {
               
               const CircleAvatar(
                 radius: 24,
-                backgroundImage: NetworkImage(
-                    "https://img.freepik.com/free-vector/cute-gorilla-eating-banana-cartoon-vector-icon-illustration-animal-food-icon-concept-isolated-flat_138676-7628.jpg?w=740&t=st=1691090269~exp=1691090869~hmac=3f889d76d4559e8dae93aa97120b1f5d521babc1cd9b8f0533cb7b6e4d34da68"),
+                backgroundImage: AssetImage("assets/images/world-map.jpg")
               ),
               const SizedBox(
                 width: 10,
               ),
-              const Text("Estefanía",
-                  style: TextStyle(
+              Text(customerName,
+                  style: const TextStyle(
                       fontFamily: Styles.titleFont,
                       fontSize: 18,
                       color: Colors.white,
@@ -54,34 +71,36 @@ class AppBarNav extends StatelessWidget {
           preferredSize: const Size.fromHeight(50.0),
           child: Padding(
             padding: const EdgeInsets.only(top: 10, left: 20),
-            child: Align(
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(navtitle,
-                      style: const TextStyle(
-                          fontFamily: Styles.titleFont,
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold)),
-                  if (description != null)
-                    Container(
-                      margin: const EdgeInsets.only(top: 5),
-                      constraints: const BoxConstraints(maxWidth: 250),
-                      child: Text(
-                        description!,
+            child: Center(
+              child: Align(
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(widget.navtitle,
                         style: const TextStyle(
-                            fontFamily: Styles.textFont,
-                            fontSize: 14,
+                            fontFamily: Styles.titleFont,
+                            fontSize: 18,
                             color: Colors.white,
-                            fontWeight: FontWeight.w100,
-                            overflow: TextOverflow.ellipsis),
-                        maxLines: 2,
-                      ),
-                    )
-                ],
+                            fontWeight: FontWeight.bold)),
+                    if (widget.description != null)
+                      Container(
+                        margin: const EdgeInsets.only(top: 5),
+                        constraints: const BoxConstraints(maxWidth: 300),
+                        child: Text(
+                          widget.description!,
+                          style: const TextStyle(
+                              fontFamily: Styles.textFont,
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w100,
+                              overflow: TextOverflow.ellipsis),
+                          maxLines: 2,
+                        ),
+                      )
+                  ],
+                ),
               ),
             ),
           ),
@@ -109,4 +128,30 @@ class AppBarNav extends StatelessWidget {
       ),
     );
   }
+
+  setUserCustomerName() async{
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var getToken = sharedPreferences.getString('currentToken');
+    Map<String, dynamic> jwtDecodeToken = JwtDecoder.decode(getToken!);
+
+    Future<String> name = getUserCustomerName(jwtDecodeToken['id']);
+    name.then((value) {
+      setState(() {
+        customerName = value;
+      });
+    });
+  }
+
+  Future<String> getUserCustomerName(String userId) async{
+    try {
+      Customer? customer = await ApiService.getCustomerByUserId(userId);
+      return customer!.name;
+    } catch (e) {
+      throw Exception("Información no disponible.");
+    }
+  }
+
+
+
 }

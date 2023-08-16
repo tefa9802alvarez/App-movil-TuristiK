@@ -1,16 +1,14 @@
 import 'package:app/models/customer.model.dart';
 import 'package:app/models/order.model.dart';
-import 'package:app/models/package.model.dart';
 import 'package:app/modules/orders/frecuent_travelers/main.frecuent_traveler.dart';
 import 'package:app/modules/orders/payments/main.payments.dart';
 import 'package:app/partials/app-bar.partial.dart';
 import 'package:app/services/api.service.dart';
+import 'package:app/utils/package.utils.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:app/styles/styles.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
 
 class MainOrders extends StatefulWidget {
   final dynamic userId;
@@ -21,11 +19,11 @@ class MainOrders extends StatefulWidget {
 
 class _MainOrdersState extends State<MainOrders> {
   static List<Order> orderList = [];
-  static List<Package> packageList = [];
 
   @override
   void initState() {
     super.initState();
+    PackageUtils.initState();
     loadInfo(widget.userId);
   }
 
@@ -53,6 +51,15 @@ class _MainOrdersState extends State<MainOrders> {
           child: Builder(
             builder: (context) {
               final double height = MediaQuery.of(context).size.height;
+              if (orderList.isEmpty) {
+                return const Text("Cargando...",
+                          style: TextStyle(
+                              fontFamily: Styles.secondTitlefont,
+                              fontSize: 18,
+                              color: Styles.blue,
+                              fontWeight: FontWeight.w100,),
+                          );
+              }
               return CarouselSlider(
                 options: CarouselOptions(
                     height: height,
@@ -97,8 +104,11 @@ class _MainOrdersState extends State<MainOrders> {
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: FadeInImage(
-                                    placeholder: const AssetImage('assets/images/loading.gif'),
-                                    image: NetworkImage(getPackageImages(item.packageId!)),
+                                    placeholder: const AssetImage(
+                                        'assets/images/loading.gif'),
+                                    image: NetworkImage(
+                                        PackageUtils.getPackageImages(
+                                            item.packageId!)),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -112,7 +122,8 @@ class _MainOrdersState extends State<MainOrders> {
                                           const BoxConstraints(maxWidth: 170),
                                       child: Center(
                                         child: Text(
-                                          getPackageName(item.packageId!),
+                                          PackageUtils.getPackageName(
+                                              item.packageId!),
                                           style: const TextStyle(
                                               fontSize: 17,
                                               fontFamily: Styles.titleFont,
@@ -167,11 +178,13 @@ class _MainOrdersState extends State<MainOrders> {
                                                           .secondTitlefont,
                                                     )),
                                                 FutureBuilder<List<String>>(
-                                                  future: formatDateRange(
-                                                      getPackagedepartureDate(
-                                                          item.packageId!),
-                                                      getPackageArrivalDate(
-                                                          item.packageId!)),
+                                                  future: PackageUtils.formatDateRange(
+                                                      PackageUtils
+                                                          .getPackagedepartureDate(
+                                                              item.packageId!),
+                                                      PackageUtils
+                                                          .getPackageArrivalDate(
+                                                              item.packageId!)),
                                                   builder:
                                                       (BuildContext context,
                                                           AsyncSnapshot<
@@ -230,11 +243,13 @@ class _MainOrdersState extends State<MainOrders> {
                                                           .secondTitlefont,
                                                     )),
                                                 FutureBuilder<List<String>>(
-                                                  future: formatDateRange(
-                                                      getPackagedepartureDate(
-                                                          item.packageId!),
-                                                      getPackageArrivalDate(
-                                                          item.packageId!)),
+                                                  future: PackageUtils.formatDateRange(
+                                                      PackageUtils
+                                                          .getPackagedepartureDate(
+                                                              item.packageId!),
+                                                      PackageUtils
+                                                          .getPackageArrivalDate(
+                                                              item.packageId!)),
                                                   builder:
                                                       (BuildContext context,
                                                           AsyncSnapshot<
@@ -341,6 +356,8 @@ class _MainOrdersState extends State<MainOrders> {
                                                               MainPayment(
                                                             orderId:
                                                                 item.orderId,
+                                                            packageId:
+                                                                item.packageId!,
                                                           ),
                                                         ),
                                                       );
@@ -376,8 +393,11 @@ class _MainOrdersState extends State<MainOrders> {
                                                           MaterialPageRoute(
                                                               builder: (context) =>
                                                                   MainFrecuentTraveler(
-                                                                      orderId: item
-                                                                          .orderId!)));
+                                                                    orderId: item
+                                                                        .orderId!,
+                                                                    packageId: item
+                                                                        .packageId!,
+                                                                  )));
                                                     },
                                                     icon: const Icon(
                                                       Icons.supervisor_account,
@@ -411,120 +431,9 @@ class _MainOrdersState extends State<MainOrders> {
     Customer? customer = await ApiService.getCustomerByUserId(userId);
     List<Order> orders =
         await ApiService.getOrdersByCustomerId(customer!.customerId);
-    List<Package> packages = await ApiService.getPackages();
     setState(() {
       orderList = orders;
-      packageList = packages;
     });
-  }
-
-  static String getPackageName(String packageId) {
-    try {
-      Package package = packageList.firstWhere((p) => p.packageId == packageId);
-      return package.name;
-    } catch (e) {
-      return "Información no disponible";
-    }
-  }
-
-  static String getPackageDestination(String packageId) {
-    try {
-      Package package = packageList.firstWhere((p) => p.packageId == packageId);
-      return package.destination;
-    } catch (e) {
-      return "Información no disponible";
-    }
-  }
-
-  static DateTime getPackagedepartureDate(String packageId) {
-    try {
-      Package package = packageList.firstWhere((p) => p.packageId == packageId);
-      return package.departureDate;
-    } catch (e) {
-      throw Exception("Fecha no disponible");
-    }
-  }
-
-  static DateTime getPackageArrivalDate(String packageId) {
-    try {
-      Package package = packageList.firstWhere((p) => p.packageId == packageId);
-      return package.arrivalDate;
-    } catch (e) {
-      throw Exception("Fecha no disponible");
-    }
-  }
-
-  static String getPackageDeparturePoint(String packageId) {
-    try {
-      Package package = packageList.firstWhere((p) => p.packageId == packageId);
-      return package.departurePoint;
-    } catch (e) {
-      throw Exception("Información no disponible");
-    }
-  }
-
-  static int getPackageTranport(String packageId) {
-    try {
-      Package package = packageList.firstWhere((p) => p.packageId == packageId);
-      return package.transport;
-    } catch (e) {
-      throw Exception("Información no disponible");
-    }
-  }
-
-  static String getPackageImages(String packageId) {
-    try {
-      Package package = packageList.firstWhere((p) => p.packageId == packageId);
-      List<String> photos = package.photos.split(",").map((photo) => photo.trim()).toList();
-      return photos.first;
-    } catch (e) {
-      throw Exception("Información no disponible");
-    }
-  }
-
-  static String getPackagePrice(String packageId) {
-    try {
-      Package package = packageList.firstWhere((p) => p.packageId == packageId);
-      return package.price.toString();
-    } catch (e) {
-      throw Exception("Información no disponible");
-    }
-  }
-
-  static String getPackageHotel(String packageId) {
-    try {
-      Package package = packageList.firstWhere((p) => p.packageId == packageId);
-      return package.hotel;
-    } catch (e) {
-      throw Exception("Información no disponible");
-    }
-  }
-
-  Future<String> formatDate(DateTime date) async {
-    try {
-      await initializeDateFormatting('es_ES', null);
-      String formattedDateTime = DateFormat('dd MMM y', 'es_ES').format(date);
-      return formattedDateTime;
-    } catch (e) {
-      return 'Fecha no disponible';
-    }
-  }
-
-  Future<List<String>> formatDateRange(
-      DateTime departureDate, DateTime arrivalDate) async {
-    try {
-      await initializeDateFormatting('es_ES', null);
-      String formattedDepartureDate =
-          DateFormat('dd/MMM/y', 'es_ES').format(departureDate);
-      String formattedArrivalDate =
-          DateFormat('dd/MMM/y', 'es_ES').format(arrivalDate);
-      return [
-        formattedDepartureDate.toString(),
-        formattedArrivalDate.toString()
-      ];
-    } catch (e) {
-      return ['Fecha no disponible', 'Fecha no disponible'];
-    }
   }
 
   void _showModalBottomSheet(BuildContext context, String packageId) {
@@ -542,7 +451,8 @@ class _MainOrdersState extends State<MainOrders> {
           child: SingleChildScrollView(
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                 child: Column(
                   children: [
                     Container(
@@ -579,7 +489,8 @@ class _MainOrdersState extends State<MainOrders> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 12, vertical: 12),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Container(
@@ -590,9 +501,7 @@ class _MainOrdersState extends State<MainOrders> {
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Image.network(
-                                      // item.package.image,
-                                      getPackageImages(packageId),
-                                      //"https://images.unsplash.com/photo-1690184432588-81068877d852?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60",
+                                      PackageUtils.getPackageImages(packageId),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -614,16 +523,19 @@ class _MainOrdersState extends State<MainOrders> {
                                                 color: Colors.white,
                                                 fontFamily:
                                                     Styles.secondTitlefont,
-                                                overflow: TextOverflow.ellipsis),
+                                                overflow:
+                                                    TextOverflow.ellipsis),
                                             maxLines: 2,
                                           ),
                                           Text(
-                                            getPackageDestination(packageId),
+                                            PackageUtils.getPackageDestination(
+                                                packageId),
                                             style: const TextStyle(
                                                 fontSize: 15,
                                                 color: Colors.white,
                                                 fontFamily: Styles.textFont,
-                                                overflow: TextOverflow.ellipsis),
+                                                overflow:
+                                                    TextOverflow.ellipsis),
                                             maxLines: 2,
                                           ),
                                         ],
@@ -656,17 +568,21 @@ class _MainOrdersState extends State<MainOrders> {
                                         const Text("Lugar de salida",
                                             style: TextStyle(
                                               fontSize: 15,
-                                              fontFamily: Styles.secondTitlefont,
+                                              fontFamily:
+                                                  Styles.secondTitlefont,
                                             )),
                                         Container(
-                                          constraints:
-                                              const BoxConstraints(maxWidth: 280),
+                                          constraints: const BoxConstraints(
+                                              maxWidth: 280),
                                           child: Text(
-                                            getPackageDeparturePoint(packageId),
+                                            PackageUtils
+                                                .getPackageDeparturePoint(
+                                                    packageId),
                                             style: const TextStyle(
                                                 fontSize: 15,
                                                 fontFamily: Styles.textFont,
-                                                overflow: TextOverflow.ellipsis),
+                                                overflow:
+                                                    TextOverflow.ellipsis),
                                             maxLines: 2,
                                           ),
                                         )
@@ -696,27 +612,32 @@ class _MainOrdersState extends State<MainOrders> {
                                         const Text("Transporte",
                                             style: TextStyle(
                                               fontSize: 15,
-                                              fontFamily: Styles.secondTitlefont,
+                                              fontFamily:
+                                                  Styles.secondTitlefont,
                                             )),
                                         Container(
-                                          constraints:
-                                              const BoxConstraints(maxWidth: 280),
+                                          constraints: const BoxConstraints(
+                                              maxWidth: 280),
                                           child: Text(
-                                            getPackageTranport(packageId) == 2
+                                            PackageUtils.getPackageTranport(
+                                                        packageId) ==
+                                                    2
                                                 ? "Terrestre"
                                                 : "Aereo",
                                             style: const TextStyle(
-                                              fontSize: 15,
-                                              fontFamily: Styles.textFont,
-                                              overflow: TextOverflow.ellipsis
-                                            ),
+                                                fontSize: 15,
+                                                fontFamily: Styles.textFont,
+                                                overflow:
+                                                    TextOverflow.ellipsis),
                                             maxLines: 2,
                                           ),
                                         )
                                       ],
                                     ),
                                     Icon(
-                                        getPackageTranport(packageId) == 2
+                                        PackageUtils.getPackageTranport(
+                                                    packageId) ==
+                                                2
                                             ? Icons.directions_bus
                                             : Icons.airplanemode_on_rounded,
                                         color: Styles.blue,
@@ -729,7 +650,8 @@ class _MainOrdersState extends State<MainOrders> {
                                 thickness: 0.8,
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 5, top: 5),
+                                padding:
+                                    const EdgeInsets.only(bottom: 5, top: 5),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -742,10 +664,12 @@ class _MainOrdersState extends State<MainOrders> {
                                         const Text("Hospedaje",
                                             style: TextStyle(
                                               fontSize: 15,
-                                              fontFamily: Styles.secondTitlefont,
+                                              fontFamily:
+                                                  Styles.secondTitlefont,
                                             )),
                                         Text(
-                                          getPackageHotel(packageId),
+                                          PackageUtils.getPackageHotel(
+                                              packageId),
                                           style: const TextStyle(
                                             fontSize: 15,
                                             fontFamily: Styles.textFont,
@@ -793,7 +717,9 @@ class _MainOrdersState extends State<MainOrders> {
                                     children: [
                                       const Icon(Icons.attach_money_sharp,
                                           color: Colors.green, size: 22),
-                                      Text(getPackagePrice(packageId),
+                                      Text(
+                                          PackageUtils.getPackagePrice(
+                                              packageId),
                                           style: const TextStyle(
                                             color: Colors.green,
                                             fontSize: 22,
