@@ -2,42 +2,41 @@ import 'package:app/models/customer.model.dart';
 import 'package:app/partials/app-bar.partial.dart';
 import 'package:app/services/api.service.dart';
 import 'package:app/styles/styles.dart';
+import 'package:app/utils/customer.utils.dart';
+import 'package:app/utils/package.utils.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MainFrecuentTraveler extends StatefulWidget {
-  // final List<OrderDetail> orderDetail;
   final String orderId;
+  final String packageId;
   const MainFrecuentTraveler(
-      {super.key, required this.orderId});
+      {super.key, required this.orderId, required this.packageId});
 
   @override
   State<MainFrecuentTraveler> createState() => _MainFrecuentTravelerState();
 }
 
 class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
-
   static List<dynamic> frecuentTravelers = [];
-   static List<dynamic> orderDetail = [];
+  static List<dynamic> orderDetail = [];
 
   @override
   void initState() {
-    super.initState(); 
-    loadPayments(widget.orderId);
+    super.initState();
+    loadInfo(widget.orderId);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Styles.blue,
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(170),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(170),
         child: AppBarNav(
           navtitle: "Mis Beneficiarios",
           backOption: true,
-          description: "Gran Excursion a Chiquinquira",
+          description: PackageUtils.getPackageName(widget.packageId),
         ),
       ),
       body: Container(
@@ -82,14 +81,13 @@ class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
-                                    "Acompañantes (${frecuentTravelers.length}) ",
+                                Text("Viajeros (${frecuentTravelers.length}) ",
                                     style: const TextStyle(
                                         color: Color.fromARGB(255, 0, 0, 0),
                                         fontSize: 16,
                                         fontFamily: Styles.secondTitlefont,
                                         fontWeight: FontWeight.w400)),
-                              ], 
+                              ],
                             ),
                           ],
                         ),
@@ -97,11 +95,11 @@ class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
                     ],
                   ),
                 ),
-              ), 
+              ),
               const SizedBox(height: 40),
               Center(
-                child: Column(
-                  children: frecuentTravelers.map((c) {
+                child: Column(children: [
+                  ...frecuentTravelers.map((c) {
                     return SizedBox(
                       height: 250,
                       width: 370,
@@ -171,7 +169,7 @@ class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
                                           ),
                                           const SizedBox(height: 10),
                                           FutureBuilder<String>(
-                                            future: calculateDate(c['birthDate']),
+                                            future: CustomerUtils.calculateDate(c['birthDate']),
                                             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                                               return Text(
                                                 snapshot.data ?? '', 
@@ -247,17 +245,17 @@ class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
                       ),
                     );
                   }).toList(),
-                ),
+                  if (frecuentTravelers.isEmpty) Image.asset('assets/images/loading.gif'),
+                ]),
               ),
-            
             ],
           ),
         ),
       ),
     );
   }
-  
-  void  loadPayments(String orderId) async {
+
+  void loadInfo(String orderId) async {
     List<dynamic> payments = await ApiService.getPaymentsByOrderId(orderId);
     List<dynamic> ft = [];
 
@@ -265,37 +263,23 @@ class _MainFrecuentTravelerState extends State<MainFrecuentTraveler> {
       for (var o in p.orderDetail) {
         Customer? customer = await ApiService.getCustomerById(o.beneficiaryId);
         ft.add({
-              "status": p.status,
-              "unitPrice": o.unitPrice, 
-              "customerId": customer!.customerId, 
-              "name": customer.name, 
-              "lastName": customer.lastName, 
-              "document": customer.document, 
-              "birthDate": customer.birthDate, 
-              "phoneNumber": customer.phoneNumber, 
-              "address": customer.address, 
-              "eps": customer.eps, 
-              "userId": customer.userId
-            }
-          );
+          "status": p.status,
+          "unitPrice": o.unitPrice,
+          "customerId": customer!.customerId,
+          "name": customer.name,
+          "lastName": customer.lastName,
+          "document": customer.document,
+          "birthDate": customer.birthDate,
+          "phoneNumber": customer.phoneNumber,
+          "address": customer.address,
+          "eps": customer.eps,
+          "userId": customer.userId
+        });
       }
     }
 
     setState(() {
       frecuentTravelers = ft;
     });
-
   }
-
-  Future<String> calculateDate(DateTime date) async {   
-    DateTime fechaNacimiento = date;
-    DateTime fechaActual = DateTime.now();
-    Duration diferencia = fechaActual.difference(fechaNacimiento);
-    int edad = diferencia.inDays ~/ 365;
-    return "${edad.toString()} Años";
-  }
-  
-  
-  
-
 }
