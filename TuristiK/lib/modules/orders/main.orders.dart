@@ -52,13 +52,15 @@ class _MainOrdersState extends State<MainOrders> {
             builder: (context) {
               final double height = MediaQuery.of(context).size.height;
               if (orderList.isEmpty) {
-                return const Text("Cargando...",
-                          style: TextStyle(
-                              fontFamily: Styles.secondTitlefont,
-                              fontSize: 18,
-                              color: Styles.blue,
-                              fontWeight: FontWeight.w100,),
-                          );
+                return const Text(
+                  "Cargando...",
+                  style: TextStyle(
+                    fontFamily: Styles.secondTitlefont,
+                    fontSize: 18,
+                    color: Styles.blue,
+                    fontWeight: FontWeight.w100,
+                  ),
+                );
               }
               return CarouselSlider(
                 options: CarouselOptions(
@@ -109,6 +111,12 @@ class _MainOrdersState extends State<MainOrders> {
                                     image: NetworkImage(
                                         PackageUtils.getPackageImages(
                                             item.packageId!)),
+                                    imageErrorBuilder:
+                                        (context, error, stackTrace) {
+                                      return Image.asset(
+                                          'assets/images/haapy-astronaut.jpg',
+                                          fit: BoxFit.fitWidth);
+                                    },
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -503,6 +511,7 @@ class _MainOrdersState extends State<MainOrders> {
                                     child: Image.network(
                                       PackageUtils.getPackageImages(packageId),
                                       fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) => const Icon(Icons.error)
                                     ),
                                   ),
                                   Container(
@@ -661,18 +670,24 @@ class _MainOrdersState extends State<MainOrders> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Text("Hospedaje",
+                                        const Text("Hotel",
                                             style: TextStyle(
                                               fontSize: 15,
                                               fontFamily:
                                                   Styles.secondTitlefont,
                                             )),
-                                        Text(
-                                          PackageUtils.getPackageHotel(
-                                              packageId),
-                                          style: const TextStyle(
-                                            fontSize: 15,
-                                            fontFamily: Styles.textFont,
+                                        Container(
+                                          constraints: const BoxConstraints(
+                                              maxWidth: 280),
+                                          child: Text(
+                                            PackageUtils.getPackageHotel(
+                                                packageId),
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: Styles.textFont,
+                                            overflow:
+                                                    TextOverflow.ellipsis),
+                                            maxLines: 2,
                                           ),
                                         )
                                       ],
@@ -691,9 +706,7 @@ class _MainOrdersState extends State<MainOrders> {
                           const SizedBox(
                             height: 20,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10, top: 5),
-                            child: Row(
+                          Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -704,33 +717,33 @@ class _MainOrdersState extends State<MainOrders> {
                                   children: [
                                     Text("Precio Unitario",
                                         style: TextStyle(
-                                          fontSize: 15,
+                                          fontSize: 16,
                                           fontFamily: Styles.secondTitlefont,
                                         )),
                                   ],
                                 ),
-                                Container(
-                                  constraints:
-                                      const BoxConstraints(maxWidth: 200),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      const Icon(Icons.attach_money_sharp,
-                                          color: Colors.green, size: 22),
-                                      Text(
-                                          PackageUtils.getPackagePrice(
-                                              packageId),
-                                          style: const TextStyle(
-                                            color: Colors.green,
-                                            fontSize: 22,
-                                            fontFamily: Styles.secondTitlefont,
-                                          )),
-                                    ],
-                                  ),
-                                )
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          const Icon(Icons.attach_money_sharp,
+                                              color: Colors.green, size: 22),
+                                          Text(
+                                              PackageUtils.getPackagePrice(
+                                                  packageId),
+                                              style: const TextStyle(
+                                                color: Colors.green,
+                                                fontSize: 20,
+                                                fontFamily: Styles.secondTitlefont,
+                                              )),
+                                        ],
+                                      ),
+                                  ],
+                                ),
                               ],
                             ),
-                          ),
                         ],
                       ),
                     ),

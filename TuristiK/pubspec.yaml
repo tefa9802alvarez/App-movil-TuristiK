@@ -87,6 +87,7 @@ flutter:
     - .env.production
     - assets/images/login_image.svg
     - assets/images/world-map.jpg
+    - assets/images/astronaut-world-globe.jpg
     - assets/images/loading.gif
     - assets/images/loading-2.gif
     - assets/icons/logo_bluebg_version.png
