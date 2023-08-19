@@ -60,7 +60,7 @@ class _LoginState extends State<Login> {
           child: SingleChildScrollView(
             child: Container(
               width: double.maxFinite,
-              height: 550,
+              height: 580,
               padding:
                   const EdgeInsets.symmetric(vertical: 35.0, horizontal: 35.0),
               decoration: const BoxDecoration(
@@ -74,12 +74,10 @@ class _LoginState extends State<Login> {
                       Column(
                         children: [
                           SizedBox(
-                            width: 200,
-                            height: 100,
+                            width: 320,
+                            height: 210,
                             child: SvgPicture.asset(
                               'assets/images/login_image.svg',
-                              width: 100,
-                              height: 100,
                             ),
                           ),
                           const Row(
