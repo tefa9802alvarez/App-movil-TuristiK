@@ -15,12 +15,12 @@ class ApiService {
   static Future<List<Order>> getOrdersByCustomerId(String customerId) async{
     List<Order> orderList =[];
     var url = Uri.parse("$endPoint/Order");
-    final response = await http.get(url);
+    final response =  await http.get(url);
     if (response.statusCode==200) {
       final data = List.from(jsonDecode(response.body));
       for (var o in data) { 
         final order = Order.fromJson(o);
-        if (order.customerId == customerId && order.status != 3) {
+        if (order.customerId == customerId && order.status == 1) {
           orderList.add(order);
         } 
       }
