@@ -7,7 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AppBarNav extends StatefulWidget{
+class AppBarNav extends StatefulWidget {
   final String navtitle;
   final bool backOption;
   final String? description;
@@ -19,12 +19,9 @@ class AppBarNav extends StatefulWidget{
 
   @override
   State<AppBarNav> createState() => _AppBarNavState();
-
 }
 
 class _AppBarNavState extends State<AppBarNav> {
-
-  
   String customerName = '';
   @override
   void initState() {
@@ -50,11 +47,9 @@ class _AppBarNavState extends State<AppBarNav> {
                     icon: const Icon(Icons.arrow_back_ios_new_rounded,
                         color: Colors.white),
                     onPressed: () => Navigator.of(context).pop()),
-              
               const CircleAvatar(
-                radius: 24,
-                backgroundImage: AssetImage("assets/images/world-map.jpg")
-              ),
+                  radius: 24,
+                  backgroundImage: AssetImage("assets/images/world-map.jpg")),
               const SizedBox(
                 width: 10,
               ),
@@ -110,12 +105,7 @@ class _AppBarNavState extends State<AppBarNav> {
             padding: const EdgeInsets.only(right: 20),
             child: IconButton(
                 onPressed: () async {
-                  final SharedPreferences sharedPreferences =
-                      await SharedPreferences.getInstance();
-                  sharedPreferences.remove('currentToken');
-                  // ignore: use_build_context_synchronously
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Login()));
+                  _mostrarConfirmacion(context);
                 },
                 icon: const Icon(
                   FontAwesomeIcons.rightFromBracket,
@@ -129,7 +119,7 @@ class _AppBarNavState extends State<AppBarNav> {
     );
   }
 
-  setUserCustomerName() async{
+  setUserCustomerName() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     var getToken = sharedPreferences.getString('currentToken');
@@ -143,7 +133,7 @@ class _AppBarNavState extends State<AppBarNav> {
     });
   }
 
-  Future<String> getUserCustomerName(String userId) async{
+  Future<String> getUserCustomerName(String userId) async {
     try {
       Customer? customer = await ApiService.getCustomerByUserId(userId);
       return customer!.name;
@@ -152,6 +142,103 @@ class _AppBarNavState extends State<AppBarNav> {
     }
   }
 
-
-
+  Future<void> _mostrarConfirmacion(BuildContext context) async {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white, // Color de fondo del cuadro de diálogo
+  surfaceTintColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10), // Borde del cuadro de diálogo
+          ),
+          title: const Text(
+            'Cerrar Sesión',
+            style: TextStyle(
+                fontSize: 17,
+                fontFamily: Styles.titleFont,
+                fontWeight: FontWeight.bold,
+                overflow: TextOverflow.ellipsis),
+            maxLines: 2,
+          ),
+          content: const Text(
+            '¿Está seguro de que desea cerrar la sesión?',
+            style: TextStyle(
+                fontSize: 16,
+                fontFamily: Styles.textFont,
+                fontWeight: FontWeight.w400,
+                overflow: TextOverflow.ellipsis),
+            maxLines: 2,
+          ),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+              onPressed: (){
+                Navigator.of(context).pop(false);
+              },
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    side: const BorderSide(color: Styles.blue),
+                  ),
+                ),
+                surfaceTintColor: MaterialStateProperty.resolveWith<Color>(
+                  (states) {
+                    if (states.contains(MaterialState.pressed)) {
+                      return Colors.white;
+                    } else {
+                      return Colors.white;
+                    }
+                  },
+                ),
+              ),
+              child: const Text(
+                'Cancelar',
+                style: TextStyle(
+                  fontFamily: Styles.secondTitlefont,
+                  color: Styles.blue,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                final SharedPreferences sharedPreferences =
+                    await SharedPreferences.getInstance();
+                sharedPreferences.remove('currentToken');
+                // ignore: use_build_context_synchronously
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => const Login())); // Respuesta positiva
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  const Color.fromARGB(1000, 59, 130, 246),
+                ),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+              ),
+              child: const Text(
+                'Confirmar',
+                style: TextStyle(
+                  fontFamily: Styles.secondTitlefont,
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          
+              ],
+            )],
+        );
+      },
+    );
+  }
 }

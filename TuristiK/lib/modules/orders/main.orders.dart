@@ -34,7 +34,7 @@ class _MainOrdersState extends State<MainOrders> {
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(150),
         child: AppBarNav(
-          navtitle: "Mis Pedidos",
+          navtitle: "Mis Pedidos Actuales",
           backOption: false,
           description: "Todas tus aventuras al instante",
         ),
@@ -66,7 +66,7 @@ class _MainOrdersState extends State<MainOrders> {
                 options: CarouselOptions(
                     height: height,
                     viewportFraction: 1.0,
-                    enlargeCenterPage: false,
+                    enlargeCenterPage: true,
                     autoPlay: false,
                     autoPlayInterval: const Duration(seconds: 3),
                     autoPlayAnimationDuration:
