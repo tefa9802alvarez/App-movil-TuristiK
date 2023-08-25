@@ -1,5 +1,5 @@
 import 'package:app/models/customer.model.dart';
-import 'package:app/partials/app-bar.partial.dart';
+import 'package:app/partials/app_bar.partial.dart';
 import 'package:app/services/api.service.dart';
 import 'package:app/styles/styles.dart';
 import 'package:app/utils/customer.utils.dart';

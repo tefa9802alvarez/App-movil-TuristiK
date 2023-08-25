@@ -4,16 +4,32 @@ import 'role.model.dart';
 class User{
 
   final String? userId;
-  final String userName;
   final String email;
   final String password;
   final String? roleId;
   final int status;
 
   final Role? role;
-  final Customer? costumer;
+  final Customer? customer;
 
-  User(this.userId, this.userName, this.email, this.password, this.roleId, this.status, this.role, this.costumer);
+  User({
+    required this.userId,
+    required this.email, 
+    required this.password, 
+    required this.roleId, 
+    required this.status, 
+    this.role, 
+    this.customer});
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      userId : json["userId"],
+      email : json["email"],
+      password : json["password"],
+      roleId : json["roleId"],
+      status :  json["status"],
+    );
+  }
 
   
 

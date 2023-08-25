@@ -49,6 +49,7 @@ class MyApp extends StatelessWidget {
 }
 
 savePackageList() async{
+  
   List<Package> packages = await ApiService.getPackages();
    // Convertir la lista de paquetes a una lista de mapas JSON
   List<Map<String, dynamic>> packagesJson = packages.map((package) => package.toJson()).toList();
