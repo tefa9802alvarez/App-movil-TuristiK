@@ -49,6 +49,9 @@ dependencies:
   flutter_dotenv: ^5.1.0
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.3.1
+  flutter_bcrypt: ^1.0.8
+  bcrypt: ^1.1.3
+  crypto: ^3.0.1
 
 
 dev_dependencies:
@@ -69,7 +72,6 @@ flutter_launcher_icons:
   adaptive_icon_background: "assets/icons/bg.png"
   adaptive_icon_foreground: "assets/icons/logo_white_version.png"
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -86,6 +88,7 @@ flutter:
     - .env.development
     - .env.production
     - assets/images/login_image.svg
+    - assets/images/recover_password.svg
     - assets/images/world-map.jpg
     - assets/images/astronaut-world-globe.jpg
     - assets/images/loading.gif

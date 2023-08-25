@@ -2,7 +2,7 @@ import 'package:app/models/customer.model.dart';
 import 'package:app/models/order.model.dart';
 import 'package:app/modules/orders/frecuent_travelers/main.frecuent_traveler.dart';
 import 'package:app/modules/orders/payments/main.payments.dart';
-import 'package:app/partials/app-bar.partial.dart';
+import 'package:app/partials/app_bar.partial.dart';
 import 'package:app/services/api.service.dart';
 import 'package:app/utils/package.utils.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
