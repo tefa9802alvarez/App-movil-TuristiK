@@ -71,7 +71,7 @@ class ApiService {
       final data = List.from(jsonDecode(response.body));
       for (var o in data) { 
         final order = Order.fromJson(o);
-        if (order.customerId == customerId && order.status == 1) {
+        if (order.customerId == customerId && order.status != 3) {
           orderList.add(order);
         } 
       }

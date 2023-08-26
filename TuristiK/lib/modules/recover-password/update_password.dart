@@ -1,4 +1,5 @@
 import 'package:app/modules/login/login.dart';
+import 'package:app/partials/app_bar_not_log.dart';
 import 'package:app/styles/styles.dart';
 import 'package:app/utils/recover-password.utils.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,10 @@ class _UpdatePasswordState extends State<UpdatePassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(70),
+        child: AppBarNavNotLogged(),
+      ),
       body: SingleChildScrollView(
           child: ConstrainedBox(
             constraints: BoxConstraints(
