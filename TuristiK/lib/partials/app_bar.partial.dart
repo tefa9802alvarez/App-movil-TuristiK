@@ -162,7 +162,7 @@ class _AppBarNavState extends State<AppBarNav> {
             maxLines: 2,
           ),
           content: const Text(
-            '¿Está seguro de que desea cerrar la sesión?',
+            '¿Está seguro que desea cerrar la sesión?',
             style: TextStyle(
                 fontSize: 16,
                 fontFamily: Styles.textFont,
