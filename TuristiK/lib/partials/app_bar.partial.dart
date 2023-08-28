@@ -148,9 +148,10 @@ class _AppBarNavState extends State<AppBarNav> {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.white, // Color de fondo del cuadro de diálogo
-  surfaceTintColor: Colors.white,
+          surfaceTintColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10), // Borde del cuadro de diálogo
+            borderRadius:
+                BorderRadius.circular(10), // Borde del cuadro de diálogo
           ),
           title: const Text(
             'Cerrar Sesión',
@@ -175,68 +176,71 @@ class _AppBarNavState extends State<AppBarNav> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-              onPressed: (){
-                Navigator.of(context).pop(false);
-              },
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    side: const BorderSide(color: Styles.blue),
-                  ),
-                ),
-                surfaceTintColor: MaterialStateProperty.resolveWith<Color>(
-                  (states) {
-                    if (states.contains(MaterialState.pressed)) {
-                      return Colors.white;
-                    } else {
-                      return Colors.white;
-                    }
+                  onPressed: () async {
+                    final SharedPreferences sharedPreferences =
+                        await SharedPreferences.getInstance();
+                    sharedPreferences.remove('currentToken');
+                    // ignore: use_build_context_synchronously
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const Login())); // Respuesta positiva
                   },
-                ),
-              ),
-              child: const Text(
-                'Cancelar',
-                style: TextStyle(
-                  fontFamily: Styles.secondTitlefont,
-                  color: Styles.blue,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                final SharedPreferences sharedPreferences =
-                    await SharedPreferences.getInstance();
-                sharedPreferences.remove('currentToken');
-                // ignore: use_build_context_synchronously
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => const Login())); // Respuesta positiva
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                  const Color.fromARGB(1000, 59, 130, 246),
-                ),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      const Color.fromARGB(1000, 59, 130, 246),
+                    ),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                  ),
+                  child: const Text(
+                    'Confirmar',
+                    style: TextStyle(
+                      fontFamily: Styles.secondTitlefont,
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-              child: const Text(
-                'Confirmar',
-                style: TextStyle(
-                  fontFamily: Styles.secondTitlefont,
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        side: const BorderSide(color: Styles.blue),
+                      ),
+                    ),
+                    surfaceTintColor: MaterialStateProperty.resolveWith<Color>(
+                      (states) {
+                        if (states.contains(MaterialState.pressed)) {
+                          return Colors.white;
+                        } else {
+                          return Colors.white;
+                        }
+                      },
+                    ),
+                  ),
+                  child: const Text(
+                    'Cancelar',
+                    style: TextStyle(
+                      fontFamily: Styles.secondTitlefont,
+                      color: Styles.blue,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          
               ],
-            )],
+            )
+          ],
         );
       },
     );
